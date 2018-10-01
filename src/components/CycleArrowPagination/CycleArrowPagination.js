@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Icon, Label } from 'semantic-ui-react';
 import withCyclePagination from 'components/WithCyclePagination';
-import { NavDiv, NavLeftColDiv, NavCenterColDiv, NavRightColDiv } from './css';
+import {
+  NavDiv, NavLeftColDiv, NavCenterColDiv, NavRightColDiv
+} from './css';
 
 class CycleArrowPagination extends Component {
   static propTypes = {
@@ -31,15 +33,17 @@ class CycleArrowPagination extends Component {
 
   fetchPrev(e) {
     e.preventDefault();
-    if (!this.props.prevDisabled) {
-      this.props.fetchPrev();
+    const { prevDisabled, fetchPrev } = this.props;
+    if (!prevDisabled) {
+      fetchPrev();
     }
   }
 
   fetchNext(e) {
     e.preventDefault();
-    if (!this.props.nextDisabled) {
-      this.props.fetchNext();
+    const { nextDisabled, fetchNext } = this.props;
+    if (!nextDisabled) {
+      fetchNext();
     }
   }
 
@@ -60,7 +64,9 @@ class CycleArrowPagination extends Component {
           </div>
           <div>{cycleGroupStartDttmLabel}</div>
           <div>
-            ({cycleGroupStartDttm})
+            (
+            {cycleGroupStartDttm}
+            )
           </div>
         </NavCenterColDiv>
         <NavRightColDiv>

@@ -24,7 +24,8 @@ export const withResponsiveTable = (WrappedComponent, minTableHeight = 320, offs
 
     handleResize = () => {
       const newHeight = this.getTableHeight();
-      if (newHeight !== this.state.tableHeight) {
+      const { tableHeight } = this.state;
+      if (newHeight !== tableHeight) {
         this.setState({
           tableHeight: newHeight
         });
@@ -32,9 +33,10 @@ export const withResponsiveTable = (WrappedComponent, minTableHeight = 320, offs
     };
 
     render() {
+      const { tableHeight } = this.state;
       return (
         <Responsive as={Fragment} onUpdate={this.handleResize}>
-          <WrappedComponent tableHeight={this.state.tableHeight} {...this.props} />
+          <WrappedComponent tableHeight={tableHeight} {...this.props} />
         </Responsive>
       );
     }

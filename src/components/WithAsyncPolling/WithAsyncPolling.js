@@ -31,7 +31,8 @@ export const withAsyncPolling = (WrappedComponent) => {
      * Start polling when the component mounts.
      */
     componentDidMount() {
-      if (this.props.intervalDuration > 0) {
+      const { intervalDuration } = this.props;
+      if (intervalDuration > 0) {
         this.startPolling();
       }
     }
@@ -40,9 +41,10 @@ export const withAsyncPolling = (WrappedComponent) => {
      * Update refresh interval.
      */
     componentDidUpdate(prevProps) {
-      if (this.props.intervalDuration !== prevProps.intervalDuration) {
+      const { intervalDuration } = this.props;
+      if (intervalDuration !== prevProps.intervalDuration) {
         this.stopPolling();
-        if (this.props.intervalDuration > 0) {
+        if (intervalDuration > 0) {
           this.startPolling();
         }
       }
@@ -59,8 +61,9 @@ export const withAsyncPolling = (WrappedComponent) => {
      * Callback function call by setInterval
      */
     onInterval() {
+      const { onInterval } = this.props;
       if (documentHiddenProperty === null || !document[documentHiddenProperty]) {
-        return this.props.onInterval(this.getProps());
+        return onInterval(this.getProps());
       }
 
       return Promise.resolve();
@@ -87,8 +90,10 @@ export const withAsyncPolling = (WrappedComponent) => {
         return;
       }
 
+      const { intervalDuration } = this.props;
+
       this.keepPolling = true;
-      this.asyncInterval(this.props.intervalDuration, this.onInterval);
+      this.asyncInterval(intervalDuration, this.onInterval);
     }
 
     /**

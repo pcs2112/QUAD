@@ -8,7 +8,8 @@ class FilePathField extends Component {
   };
 
   onChange = (event) => {
-    this.props.input.onChange(event.target.files[0].name);
+    const { input } = this.props;
+    input.onChange(event.target.files[0].name);
   };
 
   render() {

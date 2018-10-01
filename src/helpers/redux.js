@@ -24,5 +24,5 @@ export const catchValidation = (error) => {
  * @param {Object} reduxFormState
  * @param {String} fieldName
  */
-export const getFormFieldValue = (reduxFormState, fieldName) =>
-  (reduxFormState && reduxFormState.values ? reduxFormState.values[fieldName] : '');
+export const getFormFieldValue = (reduxFormState, fieldName) => (reduxFormState && reduxFormState.values
+  ? reduxFormState.values[fieldName] : '');

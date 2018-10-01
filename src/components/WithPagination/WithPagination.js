@@ -46,7 +46,8 @@ export const withPagination = (WrappedComponent) => {
     }
 
     getCurrentPage() {
-      return this.props.currentPage - 1;
+      const { currentPage } = this.props;
+      return currentPage - 1;
     }
 
     /**
@@ -188,7 +189,8 @@ export const withPagination = (WrappedComponent) => {
     }
 
     render() {
-      if (this.props.totalPages > 1) {
+      const { totalPages } = this.props;
+      if (totalPages > 1) {
         return (
           <WrappedComponent
             {...this.props}
