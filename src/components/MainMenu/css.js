@@ -7,7 +7,7 @@ export const menuCss = {
   left: '0px',
   width: globalCss.mainMenuWith,
   paddingBottom: '1em',
-  background: `${globalCss.colors.darkTurquoise}`,
+  background: `${globalCss.colors.steelBlue}`,
   overflowY: 'auto',
-  borderRight: `1px solid ${globalCss.colors.darkCyan}`
+  borderRight: `1px solid ${globalCss.colors.midnightBlue}`
 };

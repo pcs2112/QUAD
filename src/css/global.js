@@ -14,10 +14,13 @@ const lightSteelBlue = '#84b4D3';
 const mediumTurquoise = '#60AACD';
 const darkTurquoise = '#0494CB';
 const darkCyan = '#046CA4';
+const steelBlue = '#5493BC';
+const darkSlateBlue = '#345B8C';
+const midnightBlue = '#141D55';
 const paleGreen = '#9EE0AC';
-const success = '#21BA45';
-const error = '#ff0000';
-const warning = '#e8bf03';
+const green = '#21BA45';
+const red = '#ff0000';
+const yellow = '#e8bf03';
 const rowHighLight = '#DFE9F3';
 
 export default {
@@ -27,22 +30,20 @@ export default {
     mediumTurquoise,
     darkTurquoise,
     darkCyan,
+    steelBlue,
+    darkSlateBlue,
+    midnightBlue,
     paleGreen,
-    success,
-    error,
-    warning,
-    rowHighLight,
-    red: error
+    green,
+    red,
+    yellow,
+    rowHighLight
   },
   pageHeaderSegment: {
     background: lighterSteelBlue
   },
   pageHeaderSegmentH1: {
     textAlign: 'center'
-  },
-  errorPageHeaderSegmentH1: {
-    textAlign: 'center',
-    color: error
   },
   mainMenuWith: `${mainMenuWidth}px`,
   mainContainerWidth: `${mainContainerWidth}px`,

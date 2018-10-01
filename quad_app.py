@@ -15,6 +15,9 @@ def catch_all(path):
     if "dist/" in path:
         return app.send_static_file(path)
 
+    if "icons/" in path:
+        return app.send_static_file(path)
+
     body = app.send_static_file('dist/index.html' if app.config["IS_PRODUCTION"] else 'templates/index.dev.html')
     res = set_no_cache_headers(make_response(body))
 
