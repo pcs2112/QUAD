@@ -3,8 +3,10 @@ from logging.handlers import RotatingFileHandler
 from flask import Flask, jsonify
 from flask_jwt_extended import JWTManager
 from quad.db.mssql_db import init_db
+from quad.extensions import cors
 from quad.exceptions import InvalidUsage, http_error_template
 from quad.json import JSONEnhanced
+from quad.routes import controlling_accounts
 
 
 def create_app(config_object):
@@ -19,6 +21,7 @@ def create_app(config_object):
     app.json_encoder = JSONEnhanced
 
     register_db(app)
+    register_blueprints(app)
     register_jwt(app)
     register_errorhandlers(app)
     register_logger(app)
@@ -28,6 +31,14 @@ def create_app(config_object):
 
 def register_db(app):
     init_db(app)
+
+
+def register_blueprints(app):
+    """Register Flask blueprints."""
+    origins = app.config.get('CORS_ORIGIN_WHITELIST', '*')
+    cors.init_app(controlling_accounts.views.blueprint, origins=origins)
+
+    app.register_blueprint(controlling_accounts.views.blueprint)
 
 
 def register_errorhandlers(app):

@@ -160,10 +160,10 @@ def fetch_row(sql, in_args=()):
 def execute_sp(sp_name, in_args, out_arg=None):
     """
     Executes a stored procedure and returns the result sets.
-    The 0 index in the return value contains the value for the out_arg if an out_arg is specified.
+    The out argument is stored in the first element of the last result set.
 
     :param sp_name: Stored procedure name
-    :param in_args: Dictionary of store procedure parameters and values
+    :param in_args: Dictionary of store procedure in arguments and values
     :param out_arg: Output parameter
     :type sp_name: str
     :type in_args: dict
