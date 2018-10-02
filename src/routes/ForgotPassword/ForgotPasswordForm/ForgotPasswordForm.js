@@ -22,7 +22,8 @@ const ForgotPasswordForm = ({
     </div>
     <Divider section />
     <p className="centered-aligned">
-      Have an account?{' '}
+      Have an account?
+      {' '}
       <Link
         to="/login"
         onClick={(event) => {

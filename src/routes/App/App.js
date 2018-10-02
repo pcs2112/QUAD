@@ -29,7 +29,8 @@ class App extends Component {
     NProgress.initialize();
 
     // Fetch User information
-    this.props.fetchUser()
+    const { fetchUser } = this.props;
+    fetchUser()
       .then(() => {
         // Load initial data
         this.fetchRoutes(this.props);
@@ -42,7 +43,8 @@ class App extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const current = `${this.props.location.pathname}${this.props.location.search}`;
+    const { location: { pathname, search } } = this.props;
+    const current = `${pathname}${search}`;
     const next = `${nextProps.location.pathname}${nextProps.location.search}`;
     if (current === next) {
       return;
@@ -57,7 +59,8 @@ class App extends Component {
 
   componentDidUpdate() {
     window.scrollTo(0, 0);
-    if (!this.state.isInitialAppFetching) {
+    const { isInitialAppFetching } = this.state;
+    if (!isInitialAppFetching) {
       NProgress.enable();
     }
   }

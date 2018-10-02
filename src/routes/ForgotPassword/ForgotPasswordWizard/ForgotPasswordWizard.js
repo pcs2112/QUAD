@@ -39,7 +39,8 @@ class ForgotPasswordWizard extends Component {
   }
 
   componentWillUnmount() {
-    this.props.destroyFormState();
+    const { destroyFormState } = this.props;
+    destroyFormState();
   }
 
   goToStep(step) {
@@ -49,6 +50,7 @@ class ForgotPasswordWizard extends Component {
   }
 
   renderStep(stepNumber) {
+    const { onGoToLogin } = this.props;
     switch (stepNumber) {
       case FORGOT_PASSWORD_VERIFICATION_CODE_SCENARIO:
         return this.renderVerificationCodeForm();
@@ -69,11 +71,12 @@ class ForgotPasswordWizard extends Component {
                     href="/login"
                     onClick={(event) => {
                       event.preventDefault();
-                      this.props.onGoToLogin();
+                      onGoToLogin();
                     }}
                   >
                     Click here to login using your new password
-                  </a>.
+                  </a>
+                  .
                 </p>
               </Message.Content>
             </Message>

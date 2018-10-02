@@ -16,7 +16,8 @@ class MainMenu extends Component {
 
   onLogout = (e) => {
     e.preventDefault();
-    this.props.onLogout();
+    const { onLogout } = this.props;
+    onLogout();
   };
 
   render() {

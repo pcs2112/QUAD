@@ -26,7 +26,11 @@ const VerificationCodeForm = ({
       </Button>
     </div>
     <p>
-      Enter the confirmation code we sent to {email}. If you didn't get it, we can {' '}
+      Enter the confirmation code we sent to
+      {' '}
+      {email}
+      . If you didn't get it, we can
+      {' '}
       <br />
       <a
         href="/"
@@ -36,10 +40,14 @@ const VerificationCodeForm = ({
         }}
       >
         resend the code
-      </a>.{' '}{resending && <Loader active inline size="tiny" as="span" />}
+      </a>
+      .
+      {' '}
+      {resending && <Loader active inline size="tiny" as="span" />}
     </p>
     <p>
-      Didn't enter the right email address? {' '}
+      Didn't enter the right email address?
+      {' '}
       <a
         href="/"
         onClick={(event) => {

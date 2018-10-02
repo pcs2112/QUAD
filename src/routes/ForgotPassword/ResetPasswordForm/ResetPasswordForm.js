@@ -32,7 +32,8 @@ const ResetPasswordForm = ({
     </div>
     <Divider section />
     <p className="centered-aligned">
-      Having trouble resetting your password?{' '}
+      Having trouble resetting your password?
+      {' '}
       <a
         href="/"
         onClick={(event) => {
