@@ -193,7 +193,6 @@ module.exports = {
         NODE_ENV: '"development"'
       },
       __DEVELOPMENT__: true,
-      __DEVTOOLS__: true,
       __HTTPS_ENABLED__: config.env.httpsEnabled
     }),
     new HtmlWebPackPlugin({

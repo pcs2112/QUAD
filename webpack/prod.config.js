@@ -25,18 +25,6 @@ module.exports = {
     chunkFilename: '[name]-[chunkhash].js',
     publicPath: '/dist/'
   },
-  optimization: {
-    concatenateModules: true,
-    splitChunks: {
-      cacheGroups: {
-        commons: {
-          test: /[\\/]node_modules[\\/]/,
-          name: 'vendor',
-          chunks: 'all'
-        }
-      }
-    }
-  },
   module: {
     rules: [
       {
@@ -194,7 +182,6 @@ module.exports = {
         NODE_ENV: '"production"'
       },
       __DEVELOPMENT__: false,
-      __DEVTOOLS__: false,
       __HTTPS_ENABLED__: config.env.httpsEnabled
     }),
     new MiniCssExtractPlugin({

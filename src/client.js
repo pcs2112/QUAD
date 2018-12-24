@@ -28,15 +28,3 @@ renderApp({
 if (__DEVELOPMENT__) {
   window.React = React;
 }
-
-if (__DEVTOOLS__ && !window.devToolsExtension) {
-  const devToolsDest = document.createElement('div');
-  window.document.body.insertBefore(devToolsDest, null);
-  const DevTools = require('./components/DevTools'); // eslint-disable-line
-  ReactDOM.render(
-    <Provider store={store} key="provider">
-      <DevTools />
-    </Provider>,
-    devToolsDest
-  );
-}
