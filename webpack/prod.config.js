@@ -4,6 +4,7 @@ const webpack = require('webpack');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const CleanPlugin = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const config = require('../src/config');
 
 const resolve = dir => path.join(__dirname, '..', dir);
 const rootPath = path.resolve(__dirname, '..');
@@ -15,7 +16,6 @@ module.exports = {
   entry: {
     main: [
       'semantic-ui-less/semantic.less',
-      'babel-polyfill',
       resolve('src/client.js')
     ]
   },
@@ -40,18 +40,10 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.js?$/,
+        test: /\.js$/,
         exclude: /node_modules/,
         use: [
-          {
-            loader: 'strip-loader',
-            options: {
-              strip: ['debug']
-            }
-          },
-          {
-            loader: 'babel-loader'
-          }
+          'babel-loader'
         ]
       },
       {
@@ -202,7 +194,8 @@ module.exports = {
         NODE_ENV: '"production"'
       },
       __DEVELOPMENT__: false,
-      __DEVTOOLS__: false
+      __DEVTOOLS__: false,
+      __HTTPS_ENABLED__: config.env.httpsEnabled
     }),
     new MiniCssExtractPlugin({
       filename: '[name]-[chunkhash].css'
