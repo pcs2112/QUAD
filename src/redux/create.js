@@ -6,16 +6,7 @@ import appErrorMiddleware from './middleware/appError';
 
 export default (client, data) => {
   const middleware = [clientMiddleware(client), appErrorMiddleware, thunk];
-
-  let finalCreateStore;
-  if (__DEVELOPMENT__ && __DEVTOOLS__) {
-    finalCreateStore = compose(
-      applyMiddleware(...middleware)
-    )(_createStore);
-  } else {
-    finalCreateStore = applyMiddleware(...middleware)(_createStore);
-  }
-
+  const finalCreateStore = applyMiddleware(...middleware)(_createStore);
   const reducer = reducerCreate();
   const store = finalCreateStore(reducer, data);
 
