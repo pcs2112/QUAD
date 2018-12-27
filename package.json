@@ -83,7 +83,7 @@
     "semantic-ui-less": "2.4.1",
     "semantic-ui-react": "0.84.0",
     "serve-favicon": "^2.4.4",
-    "superagent": "4.0.0",
+    "superagent": "4.1.0",
     "warning": "^4.0.1"
   },
   "devDependencies": {
@@ -116,7 +116,6 @@
     "node-sass": "4.11.0",
     "postcss-loader": "^3.0.0",
     "react-a11y": "1.1.0",
-    "redbox-react": "^1.1.1",
     "sass-loader": "^7.0.3",
     "strip-loader": "^0.1.0",
     "style-loader": "0.23.1",
