@@ -16,8 +16,8 @@ module.exports = {
   entry: {
     main: [
       'semantic-ui-less/semantic.less',
-      `webpack-hot-middleware/client?path=http://${host}:${port}/__webpack_hmr`,
-      resolve('src/client.js')
+      resolve('src/client.js'),
+      `webpack-hot-middleware/client?path=http://${host}:${port}/__webpack_hmr`
     ]
   },
   output: {
