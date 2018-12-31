@@ -2,8 +2,9 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { reduxForm, Field } from 'redux-form';
 import { Button, Loader } from 'semantic-ui-react';
-import withBasicForm from 'components/WithBasicForm';
-import { TextField } from 'components/ReduxForm';
+import withBasicForm from 'react-components';
+import { TextField } from 'react-components/lib/components/semantic-ui-react';
+import { DEFAULT_FORM_ERROR } from 'constants/index';
 import validate from './validate';
 
 const VerificationCodeForm = ({
@@ -74,4 +75,4 @@ export default reduxForm({
   form: 'VerificationCodeForm',
   fields: ['verification_code'],
   validate
-})(withBasicForm(VerificationCodeForm));
+})(withBasicForm(VerificationCodeForm, DEFAULT_FORM_ERROR));
