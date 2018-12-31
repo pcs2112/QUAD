@@ -2,8 +2,7 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { reduxForm, Field } from 'redux-form';
 import { Button, Divider } from 'semantic-ui-react';
-import withBasicForm from 'react-components';
-import { TextField } from 'react-components/lib/components/semantic-ui-react';
+import { withBasicForm, TextField } from 'react-components/lib/components/semantic-ui-react';
 import { DEFAULT_FORM_ERROR } from 'constants/index';
 import validate from './validate';
 
