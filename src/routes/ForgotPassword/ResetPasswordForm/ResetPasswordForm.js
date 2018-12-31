@@ -2,8 +2,9 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { reduxForm, Field } from 'redux-form';
 import { Button, Divider } from 'semantic-ui-react';
-import withBasicForm from 'components/WithBasicForm';
-import { TextField } from 'components/ReduxForm';
+import withBasicForm from 'react-components';
+import { TextField } from 'react-components/lib/components/semantic-ui-react';
+import { DEFAULT_FORM_ERROR } from 'constants/index';
 import validate from './validate';
 
 const ResetPasswordForm = ({
@@ -57,4 +58,4 @@ export default reduxForm({
   form: 'ResetPasswordForm',
   fields: ['new_password', 'confirm_new_password'],
   validate
-})(withBasicForm(ResetPasswordForm));
+})(withBasicForm(ResetPasswordForm, DEFAULT_FORM_ERROR));

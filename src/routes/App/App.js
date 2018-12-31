@@ -7,7 +7,6 @@ import { reactRouterFetch } from 'javascript-utils/lib/react-router';
 import { Dimmer, Loader } from 'semantic-ui-react';
 import userModule from 'redux/modules/user';
 import Error from 'routes/Error';
-import NProgress from 'components/NProgress';
 
 class App extends Component {
   static propTypes = {
@@ -26,8 +25,6 @@ class App extends Component {
   }
 
   componentDidMount() {
-    NProgress.initialize();
-
     // Fetch User information
     const { fetchUser } = this.props;
     fetchUser()
@@ -59,24 +56,15 @@ class App extends Component {
 
   componentDidUpdate() {
     window.scrollTo(0, 0);
-    const { isInitialAppFetching } = this.state;
-    if (!isInitialAppFetching) {
-      NProgress.enable();
-    }
   }
 
   fetchRoutes(props) {
     const { location, routes } = props;
-
-    NProgress.start();
-
     this.setState({
       isAppFetching: true
     }, () => {
       reactRouterFetch(routes, location)
         .then(() => {
-          NProgress.done();
-
           this.setState({
             isInitialAppFetching: false,
             isAppFetching: false,
@@ -84,8 +72,6 @@ class App extends Component {
           });
         })
         .catch((err) => {
-          NProgress.done();
-
           this.setState({
             isInitialAppFetching: false,
             isAppFetching: false,

@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 import { reduxForm, Field } from 'redux-form';
 import { Link } from 'react-router-dom';
 import { Button, Divider } from 'semantic-ui-react';
-import withBasicForm from 'components/WithBasicForm';
-import { TextField } from 'components/ReduxForm';
+import withBasicForm from 'react-components';
+import { TextField } from 'react-components/lib/components/semantic-ui-react';
+import { DEFAULT_FORM_ERROR } from 'constants/index';
 import validate from './validate';
 
 const ForgotPasswordForm = ({
@@ -47,4 +48,4 @@ export default reduxForm({
   form: 'ForgotPasswordForm',
   fields: ['email'],
   validate
-})(withBasicForm(ForgotPasswordForm));
+})(withBasicForm(ForgotPasswordForm, DEFAULT_FORM_ERROR));
