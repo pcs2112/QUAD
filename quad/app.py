@@ -42,7 +42,7 @@ def register_blueprints(app):
 
 
 def register_errorhandlers(app):
-    """Register api error handling"""
+    """Register api error handling."""
     def error_handler(error):
         response = error.to_json()
         response.status_code = error.status_code
@@ -52,7 +52,7 @@ def register_errorhandlers(app):
 
 
 def register_logger(app):
-    """Register the application logging"""
+    """Register the application logging."""
     if app.config['IS_PRODUCTION'] and app.config['DEBUG'] is False:
         log_handler = RotatingFileHandler(app.config['APP_DIR'] + '/logs/app.txt')
         log_handler.setLevel(logging.ERROR)
@@ -61,7 +61,7 @@ def register_logger(app):
 
 
 def register_jwt(app):
-    """Register JWT and its loaders"""
+    """Register JWT and its loaders."""
     jwt = JWTManager(app)
 
     @jwt.user_claims_loader
