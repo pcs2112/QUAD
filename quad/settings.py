@@ -1,19 +1,19 @@
 """Application configuration."""
 import os
-from flask.helpers import get_debug_flag
+from flask.helpers import get_debug_flag, get_env
 from dotenv import load_dotenv
 
 
 class Settings(object):
     """Base configuration."""
 
-    # load dotenv in the base root
+    # Load dotenv in the base root
     dotenv_path = os.path.join(os.path.dirname(__file__), '..', '.env')
     load_dotenv(dotenv_path)
 
     # Set config
-    ENV = os.getenv('FLASK_ENV')
-    IS_PRODUCTION = os.getenv('FLASK_ENV') == 'production'
+    ENV = get_env()
+    IS_PRODUCTION = ENV == 'production'
     DEBUG = get_debug_flag()
     APP_DIR = os.path.abspath(os.path.dirname(__file__))
     DB_SERVER = os.getenv('DB_HOST')
