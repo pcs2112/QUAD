@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import RedBox from 'redbox-react';
-import createStore from './redux/create';
+import createStore from './redux/store';
 import { client } from './helpers/ApiClient';
 import getRoutes from './routes';
 import App from './routes/App';

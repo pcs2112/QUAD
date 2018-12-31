@@ -1,10 +1,10 @@
 import { createStore as _createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import { persistState } from 'redux-devtools';
+import DevTools from 'react-components/lib/components/DevTools';
 import clientMiddleware from './middleware/apiClient';
 import appErrorMiddleware from './middleware/appError';
 import createReducer from './reducer';
-import DevTools from '../components/DevTools';
 
 export default (client, data) => {
   const middleware = [clientMiddleware(client), appErrorMiddleware, thunk];

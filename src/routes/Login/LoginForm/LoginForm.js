@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 import { reduxForm, Field } from 'redux-form';
 import { Link } from 'react-router-dom';
 import { Button, Divider } from 'semantic-ui-react';
-import withBasicForm from 'components/WithBasicForm';
+import withBasicForm from 'react-components';
 import { TextField } from 'components/ReduxForm';
+import { DEFAULT_FORM_ERROR } from 'constants/index';
 import validate from './validate';
 
 const LoginForm = ({
@@ -36,4 +37,4 @@ export default reduxForm({
   form: 'LoginForm',
   fields: ['email', 'password'],
   validate
-})(withBasicForm(LoginForm));
+})(withBasicForm(LoginForm, DEFAULT_FORM_ERROR));

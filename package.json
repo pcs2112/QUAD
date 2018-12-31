@@ -65,6 +65,7 @@
     "prop-types": "^15.5.10",
     "react": "16.7.0",
     "react-chartjs-2": "^2.7.4",
+    "react-components": "git+https://github.com/pcs2112/react-components.git",
     "react-dom": "16.7.0",
     "react-redux": "6.0.0",
     "react-router": "4.3.1",
