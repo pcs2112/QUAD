@@ -37,7 +37,20 @@ jspm_packages
 .node_repl_history
 
 # Python
+venv/
+
+*.pyc
 __pycache__/
+
+instance/
+
+.pytest_cache/
+.coverage
+htmlcov/
+
+dist/
+build/
+*.egg-info/
 
 # App files
 .idea/
@@ -48,6 +61,5 @@ npm-debug.log
 *.swp
 .env
 quad/static/dist/
-quad/static/run_books/
 logs/
 .app_cache
