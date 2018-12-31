@@ -2,7 +2,7 @@ import logging
 from logging.handlers import RotatingFileHandler
 from flask import Flask, jsonify
 from flask_jwt_extended import JWTManager
-from quad.db.mssql_db import init_db
+from quad.db.db import init_db
 from quad.extensions import cors
 from quad.exceptions import InvalidUsage, http_error_template
 from quad.json import JSONEnhanced

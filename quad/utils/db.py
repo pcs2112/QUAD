@@ -1,4 +1,4 @@
-from quad.db.mssql_db import execute_sp
+from quad.db.db import execute_sp
 from quad.db.exceptions import SPException
 
 
