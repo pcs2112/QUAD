@@ -4,7 +4,6 @@ const webpack = require('webpack');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const CleanPlugin = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const config = require('../src/config');
 
 const resolve = dir => path.join(__dirname, '..', dir);
 const rootPath = path.resolve(__dirname, '..');
@@ -181,8 +180,7 @@ module.exports = {
       'process.env': {
         NODE_ENV: '"production"'
       },
-      __DEVELOPMENT__: false,
-      __HTTPS_ENABLED__: config.env.httpsEnabled
+      __DEVELOPMENT__: false
     }),
     new MiniCssExtractPlugin({
       filename: '[name]-[chunkhash].css'

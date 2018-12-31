@@ -2,7 +2,6 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
-const config = require('../src/config');
 
 const resolve = dir => path.join(__dirname, '..', dir);
 const rootPath = path.resolve(__dirname, '..');
@@ -192,8 +191,7 @@ module.exports = {
       'process.env': {
         NODE_ENV: '"development"'
       },
-      __DEVELOPMENT__: true,
-      __HTTPS_ENABLED__: config.env.httpsEnabled
+      __DEVELOPMENT__: true
     }),
     new HtmlWebPackPlugin({
       template: resolve('quad/static/templates/index.dev.html'),

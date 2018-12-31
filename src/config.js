@@ -4,7 +4,7 @@
  * @module config
  * @type {Object}
  */
-module.exports = {
+const config = {
   host: process.env.HOST || 'localhost',
   port: process.env.PORT,
   apiHost: process.env.API_HOST || 'localhost',
@@ -17,6 +17,8 @@ module.exports = {
   env: {
     httpsEnabled: Object.prototype.hasOwnProperty.call(process.env, 'HTTPS_ENABLED')
       ? (process.env.HTTPS_ENABLED === true || process.env.HTTPS_ENABLED === 'true')
-      : window.location.protocol.indexOf('https') > -1
+      : (typeof window !== 'undefined' && window.location.protocol.indexOf('https') > -1)
   }
 };
+
+export default config;
