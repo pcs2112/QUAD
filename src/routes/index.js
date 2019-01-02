@@ -1,3 +1,4 @@
+import ControllingAccounts from './ControllingAccounts';
 import Error from './Error';
 import ForgotPassword from './ForgotPassword';
 import Home from './Home';
@@ -10,13 +11,18 @@ export default () => ([
     exact: true
   },
   {
-    path: '/login',
-    component: Login,
+    path: '/ctrlaccts',
+    component: ControllingAccounts,
     exact: true
   },
   {
     path: '/forgot',
     component: ForgotPassword,
+    exact: true
+  },
+  {
+    path: '/login',
+    component: Login,
     exact: true
   },
   {

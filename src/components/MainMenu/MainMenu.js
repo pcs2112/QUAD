@@ -6,7 +6,7 @@ import { Menu } from 'semantic-ui-react';
 import { menuCss } from './css';
 import logo from './logo.png';
 
-// const isActive = (currentPathName, pathName) => currentPathName.indexOf(pathName) > -1;
+const isActive = (currentPathName, pathName) => currentPathName.indexOf(pathName) > -1;
 
 class MainMenu extends Component {
   static propTypes = {
@@ -22,7 +22,6 @@ class MainMenu extends Component {
 
   render() {
     const { location: { pathname } } = this.props;
-    console.log(pathname);
     return (
       <Menu inverted fixed="left" vertical size="large" style={menuCss}>
         <div className="item">
@@ -30,6 +29,9 @@ class MainMenu extends Component {
             <img src={logo} className="ui image" alt="QUAD" />
           </Link>
         </div>
+        <Menu.Item as={Link} to="/ctrlaccts" active={isActive(pathname, '/ctrlaccts')}>
+          Controlling Accounts
+        </Menu.Item>
         <Menu.Item as={Link} to="/logout" onClick={this.onLogout}>
           Logout
         </Menu.Item>
