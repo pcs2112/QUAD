@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Header, Segment } from 'semantic-ui-react';
-import userModule from 'redux/modules/user';
+import authModule from 'redux/modules/auth';
 import withGuestLayout from 'components/WithGuestLayout';
 import LoginForm from './LoginForm';
 
@@ -35,9 +35,9 @@ class Login extends Component {
 export default withGuestLayout(connect(
   null,
   dispatch => ({
-    onLogin: data => dispatch(userModule.actions.login(data)),
+    onLogin: data => dispatch(authModule.actions.login(data)),
     onLoginSuccess: () => {
-      dispatch(userModule.actions.fetchUser());
+      dispatch(authModule.actions.fetchUser());
     }
   })
 )(Login));

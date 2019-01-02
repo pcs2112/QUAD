@@ -43,7 +43,7 @@ export const withGuestLayout = (WrappedComponent) => {
 
   return connect(
     state => ({
-      isLoggedIn: state.user.isLoggedIn
+      isLoggedIn: state.auth.isLoggedIn
     }),
     null
   )(WithGuestLayout);

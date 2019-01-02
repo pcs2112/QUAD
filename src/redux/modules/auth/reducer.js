@@ -1,6 +1,6 @@
 import {
   getAccessToken, getRefreshToken, setAccessToken, setRefreshToken
-} from 'helpers/user';
+} from 'helpers/auth';
 import { actionTypes } from './actions';
 
 // Initial tokens
@@ -47,7 +47,7 @@ const setAccessTokens = (state, accessToken, refreshToken = undefined) => {
 };
 
 /**
- * User reducer.
+ * Auth reducer.
  *
  * @param {Object} state
  * @param {Object} action

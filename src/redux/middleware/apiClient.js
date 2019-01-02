@@ -24,7 +24,7 @@ export default client => ({ dispatch, getState }) => next => (action) => {
   }
 
   // Set the JWT access token from the user state
-  const { accessToken } = getState().user;
+  const { accessToken } = getState().auth;
   client.setAccessToken(accessToken);
 
   const [requestType, successType, failureType] = types;

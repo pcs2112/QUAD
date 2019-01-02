@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Route, Redirect } from 'react-router-dom';
 import { getDisplayName } from 'javascript-utils/lib/react';
 import { Grid } from 'semantic-ui-react';
-import userModule from 'redux/modules/user';
+import authModule from 'redux/modules/auth';
 import MainMenu from 'components/MainMenu';
 import { mainContentCss } from './css';
 
@@ -51,10 +51,10 @@ export const withMainLayout = (WrappedComponent) => {
 
   return connect(
     state => ({
-      isLoggedIn: state.user.isLoggedIn
+      isLoggedIn: state.auth.isLoggedIn
     }),
     dispatch => ({
-      onLogout: () => dispatch(userModule.actions.logout())
+      onLogout: () => dispatch(authModule.actions.logout())
     })
   )(WithMainLayout);
 };

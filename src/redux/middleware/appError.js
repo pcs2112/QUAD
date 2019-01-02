@@ -1,5 +1,5 @@
 import { objectHasOwnProperty } from 'javascript-utils/lib/utils';
-import userModule from 'redux/modules/user';
+import userModule from 'redux/modules/auth';
 
 export default () => next => (action) => {
   const { error } = action;

@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Header, Segment } from 'semantic-ui-react';
-import userModule from 'redux/modules/user';
+import userModule from 'redux/modules/auth';
 import withGuestLayout from 'components/WithGuestLayout';
 import ForgotPasswordWizard from './ForgotPasswordWizard';
 
