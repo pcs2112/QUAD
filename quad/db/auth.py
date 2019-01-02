@@ -9,11 +9,16 @@ def fetch_user_by_id(id_):
     :param id_: User ID
     :type id_: int
     """
-    return execute_legacy_quad_sp(
+    result = execute_legacy_quad_sp(
       'MWH.UMA_WAREHOUSE_ADMIN_CONSOLE_REPORTS',
       'LIST_ADMIN_CONSOLE_USER_BY_ID',
       id_
-    )[0]
+    )
+    
+    if len(result) < 1:
+        return None
+
+    return result[0]
 
 
 def fetch_user_by_email(email):
@@ -22,11 +27,16 @@ def fetch_user_by_email(email):
     :param email: User email
     :type email: str
     """
-    return execute_legacy_quad_sp(
+    result = execute_legacy_quad_sp(
       'MWH.UMA_WAREHOUSE_ADMIN_CONSOLE_REPORTS',
       'LIST_ADMIN_CONSOLE_USER_BY_EMAIL',
       email
-    )[0]
+    )
+    
+    if len(result) < 1:
+        return None
+
+    return result[0]
 
 
 def login_user(email, password):

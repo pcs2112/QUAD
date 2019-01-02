@@ -67,7 +67,7 @@ def execute_quad_sp(sp_name, sp_message, sp_in_args):
 
     result = execute_sp(sp_name, in_args, out_arg)
     result_count = len(result)
-
+ 
     status_code = result[result_count - 1][0][0]
 
     if status_code > 1:
