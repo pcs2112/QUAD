@@ -9,12 +9,28 @@
     "@babel/react",
     "@emotion/babel-preset-css-prop"
   ],
-  "plugins": [
-    "@babel/plugin-proposal-function-bind",
-    "@babel/plugin-proposal-class-properties",
-    "@babel/plugin-syntax-export-default-from",
-    "@babel/plugin-proposal-export-default-from",
-    "add-module-exports",
-    "@babel/plugin-transform-react-display-name"
-  ]
+  "env": {
+    "production": {
+      "plugins": [
+        "emotion",
+        "@babel/plugin-proposal-function-bind",
+        "@babel/plugin-proposal-class-properties",
+        "@babel/plugin-syntax-export-default-from",
+        "@babel/plugin-proposal-export-default-from",
+        "add-module-exports",
+        "@babel/plugin-transform-react-display-name"
+      ]
+    },
+    "development": {
+      "plugins": [
+        ["emotion", { "sourceMap": true }],
+        "@babel/plugin-proposal-function-bind",
+        "@babel/plugin-proposal-class-properties",
+        "@babel/plugin-syntax-export-default-from",
+        "@babel/plugin-proposal-export-default-from",
+        "add-module-exports",
+        "@babel/plugin-transform-react-display-name"
+      ]
+    }
+  }
 }

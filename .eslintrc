@@ -54,7 +54,8 @@
   },
   "plugins": [
     "react",
-    "import"
+    "import",
+    "emotion"
   ],
   "settings": {
     "import/parser": "babel-eslint",
