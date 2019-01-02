@@ -77,3 +77,20 @@ def execute_quad_sp(sp_name, sp_message, sp_in_args):
         return []
 
     return result[0]
+
+
+def fetch_error(error_id):
+    """
+    Returns the error record.
+    :param error_id: Error record ID
+    :type error_id: int
+    """
+    result = execute_sp(
+        'MWH.UMA_WAREHOUSE_ADMIN_CONSOLE',
+        fill_in_legacy_quad_sp_in_args({
+            'message': 'GET_ERROR_TEXT',
+            'VARCHAR_01': error_id
+        })
+    )
+    
+    return result[0][0]
