@@ -41,7 +41,7 @@ def execute_legacy_quad_sp(*args):
         in_arg = f'VARCHAR_{in_arg_prefix}{x - 1}'
         in_args[in_arg] = str(args[x])
         
-    return execute_quad_sp(sp_name, sp_message, in_args)
+    return execute_quad_sp(sp_name, sp_message, fill_in_legacy_quad_sp_in_args(in_args))
 
 
 def execute_quad_sp(sp_name, sp_message, sp_in_args):
