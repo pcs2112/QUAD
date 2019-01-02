@@ -39,7 +39,7 @@ Error.defaultProps = {
 
 export default connect(
   state => ({
-    isLoggedIn: state.user.isLoggedIn
+    isLoggedIn: state.auth.isLoggedIn
   }),
   null
 )(Error);
