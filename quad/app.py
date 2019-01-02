@@ -6,7 +6,7 @@ from quad.db.db import init_db
 from quad.extensions import cors
 from quad.exceptions import InvalidUsage, http_error_template
 from quad.json import JSONEnhanced
-from quad.routes import controlling_accounts
+from quad.routes import controlling_accounts, auth
 
 
 def create_app(config_object):
@@ -38,6 +38,7 @@ def register_blueprints(app):
     origins = app.config.get('CORS_ORIGIN_WHITELIST', '*')
     cors.init_app(controlling_accounts.views.blueprint, origins=origins)
 
+    app.register_blueprint(auth.views.blueprint)
     app.register_blueprint(controlling_accounts.views.blueprint)
 
 
