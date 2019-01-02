@@ -2,6 +2,48 @@ from quad.db.db import execute_sp
 from quad.db.exceptions import SPException
 
 
+LEGACY_QUAD_SP_IN_ARGS_LENGTH = 10
+
+
+def fill_in_legacy_quad_sp_in_args(in_args):
+    """
+    Helper function to ensure the MWH.UMA_WAREHOUSE_ADMIN_CONSOLE SP
+    is always called with the correct number of in arguments.
+
+    :param in_args: SP in arguments
+    :type in_args: dict
+    :return: dict
+    """
+    new_in_args = in_args.copy()
+    in_args_length = len(new_in_args.keys())
+    if in_args_length < LEGACY_QUAD_SP_IN_ARGS_LENGTH:
+        for x in range(in_args_length, LEGACY_QUAD_SP_IN_ARGS_LENGTH):
+            in_arg_prefix = '0' if x < 10 else ''
+            in_arg_name = f'VARCHAR_{in_arg_prefix}{x}'
+            new_in_args[in_arg_name] = ''
+
+    return new_in_args
+
+
+def execute_legacy_quad_sp(*args):
+    """
+    Helper function to execute the MWH.UMA_WAREHOUSE_ADMIN_CONSOLE stored procedure.
+    :return: Stored procedure result sets and out argument
+    :rtype: list
+    """
+    sp_name = args[0]
+    sp_message = args[1]
+
+    in_args = {}
+
+    for x in range(2, len(args)):
+        in_arg_prefix = '0' if x < 10 else ''
+        in_arg = f'VARCHAR_{in_arg_prefix}{x - 1}'
+        in_args[in_arg] = str(args[x])
+        
+    return execute_quad_sp(sp_name, sp_message, in_args)
+
+
 def execute_quad_sp(sp_name, sp_message, sp_in_args):
     """
     Helper function to execute QUAD stored procedures.
