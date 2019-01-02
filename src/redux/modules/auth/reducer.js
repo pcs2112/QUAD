@@ -1,3 +1,4 @@
+import { itemReducerFor, itemReducerForInitalState } from 'javascript-utils/lib/redux/reducers';
 import {
   getAccessToken, getRefreshToken, setAccessToken, setRefreshToken
 } from 'helpers/auth';
@@ -8,11 +9,9 @@ const initialAccessToken = getAccessToken();
 const initialRefreshToken = getRefreshToken();
 
 // Initial state
-const initialState = {
-  isFetching: false,
-  fetchingError: false,
+const initialState = Object.assign({
   isLoggedIn: false
-};
+}, itemReducerForInitalState);
 
 if (initialAccessToken) {
   initialState.accessToken = initialAccessToken;
@@ -20,12 +19,17 @@ if (initialAccessToken) {
 }
 
 /**
+ * Create the item reducer
+ */
+const itemReducer = itemReducerFor(actionTypes);
+
+/**
  * Reducer to handle the access tokens.
  * @param {Object} state
  * @param {String|Boolean} accessToken
  * @param {String|Boolean|undefined} refreshToken
  */
-const setAccessTokens = (state, accessToken, refreshToken = undefined) => {
+const setAccessTokensReducer = (state, accessToken, refreshToken = undefined) => {
   const newState = { ...state };
   if (accessToken) {
     newState.accessToken = accessToken;
@@ -56,34 +60,29 @@ const setAccessTokens = (state, accessToken, refreshToken = undefined) => {
 export default (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.FETCH_BEGIN:
+      return itemReducer(state, action);
+    case actionTypes.FETCH_SUCCESS: {
+      const newState = itemReducer(state, action);
+      newState.isLoggedIn = true;
+      return newState;
+    }
+    case actionTypes.FETCH_FAIL: {
+      const newState = itemReducer(state, action);
+      newState.isLoggedIn = false;
       return {
         ...state,
         isFetching: true
       };
-    case actionTypes.FETCH_SUCCESS:
-      return {
-        ...state,
-        isFetching: false,
-        fetchingError: false,
-        isLoggedIn: true,
-        ...action.response
-      };
-    case actionTypes.FETCH_FAIL:
-      return {
-        ...state,
-        isFetching: false,
-        fetchingError: action.error,
-        isLoggedIn: false
-      };
-    case actionTypes.LOGOUT:
-      setAccessTokens(state, false, false);
-      return {
-        isFetching: false,
-        fetchingError: false,
-        isLoggedIn: false
-      };
+    }
+    case actionTypes.LOGOUT: {
+      setAccessTokensReducer(state, false, false);
+      const newState = { ...initialState };
+      delete (newState.accessToken);
+      delete (newState.refreshToken);
+      return newState;
+    }
     case actionTypes.LOGIN_SUCCESS: {
-      const newState = setAccessTokens(state, action.response.access_token, action.response.refresh_token);
+      const newState = setAccessTokensReducer(state, action.response.access_token, action.response.refresh_token);
       return {
         ...newState,
         isFetching: false,
@@ -91,9 +90,9 @@ export default (state = initialState, action) => {
       };
     }
     case actionTypes.SET_ACCESS_TOKENS:
-      return setAccessTokens(state, action.accessToken, action.refreshToken);
+      return setAccessTokensReducer(state, action.accessToken, action.refreshToken);
     case actionTypes.SET_ACCESS_TOKEN:
-      return setAccessTokens(state, action.accessToken);
+      return setAccessTokensReducer(state, action.accessToken);
     default:
       return state;
   }
