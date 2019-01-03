@@ -3968,7 +3968,7 @@ isstream@~0.1.2:
 
 "javascript-utils@git+https://github.com/pcs2112/javascript-utils.git":
   version "0.0.51"
-  resolved "git+https://github.com/pcs2112/javascript-utils.git#c5bc9b2ad8669f9c0d3b66854dfb938eb1cd5af6"
+  resolved "git+https://github.com/pcs2112/javascript-utils.git#d1292e03ade1dfe5dde1c94835a407f5e0977efe"
   dependencies:
     lodash "^4.17.11"
     moment "2.23.0"
