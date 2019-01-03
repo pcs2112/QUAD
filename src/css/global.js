@@ -23,29 +23,25 @@ const red = '#ff0000';
 const yellow = '#e8bf03';
 const rowHighLight = '#DFE9F3';
 
+export const colors = {
+  lighterSteelBlue,
+  lightSteelBlue,
+  mediumTurquoise,
+  darkTurquoise,
+  darkCyan,
+  steelBlue,
+  darkSlateBlue,
+  midnightBlue,
+  paleGreen,
+  green,
+  red,
+  yellow,
+  rowHighLight
+};
+
 export default {
-  colors: {
-    lighterSteelBlue,
-    lightSteelBlue,
-    mediumTurquoise,
-    darkTurquoise,
-    darkCyan,
-    steelBlue,
-    darkSlateBlue,
-    midnightBlue,
-    paleGreen,
-    green,
-    red,
-    yellow,
-    rowHighLight
-  },
-  pageHeaderSegment: {
-    background: lighterSteelBlue
-  },
-  pageHeaderSegmentH1: {
-    textAlign: 'center'
-  },
   mainMenuWith: `${mainMenuWidth}px`,
   mainContainerWidth: `${mainContainerWidth}px`,
-  mainTableHeight: `${windowHeight - 220}px`
+  mainTableHeight: `${windowHeight - 220}px`,
+  colors
 };

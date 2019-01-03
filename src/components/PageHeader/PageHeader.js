@@ -1,29 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { objectHasOwnProperty } from 'javascript-utils/lib/utils';
-import globalCss from 'css/global';
+import { Segment } from 'semantic-ui-react';
+import { segmentCss, h1Css, h1ColorCss } from './css';
 
-const defaultStyles = {
-  textAlign: 'center'
-};
-
-const PageHeader = ({ headerText, state }) => {
-  let styles = defaultStyles;
-  if (state && objectHasOwnProperty(globalCss.colors, state)) {
-    styles = {
-      ...defaultStyles,
-      color: globalCss.colors[state]
-    };
-  }
-
-  return (
-    <h1
-      style={styles}
-    >
+const PageHeader = ({ headerText, state }) => (
+  <Segment css={segmentCss}>
+    <h1 css={[h1Css, h1ColorCss(state)]}>
       {headerText}
     </h1>
-  );
-};
+  </Segment>
+);
 
 PageHeader.propTypes = {
   headerText: PropTypes.string.isRequired,
