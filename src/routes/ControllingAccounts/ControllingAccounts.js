@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import controllingAccountsReduxModule from 'redux/modules/controllingAccounts';
 import withMainLayout from 'components/WithMainLayout';
 import PageHeader from 'components/PageHeader';
+import TreeView from './TreeView';
 
 class ControllingAccounts extends Component {
   static propTypes = {
@@ -35,12 +36,12 @@ class ControllingAccounts extends Component {
 
   render() {
     const { data } = this.props;
-    if (data.length > 0) {
-      console.log(data);
-    }
     return (
       <Fragment>
         <PageHeader headerText="Controlling Accounts" />
+        <div style={{ height: '400px', position: 'relative' }}>
+          <TreeView nodes={data} />
+        </div>
       </Fragment>
     );
   }
