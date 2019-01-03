@@ -90,7 +90,10 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        include: [resolve('node_modules/react-table/react-table.css')],
+        include: [
+          resolve('node_modules/react-virtualized/styles.css'),
+          resolve('node_modules/react-virtualized-tree/lib/main.css')
+        ],
         use: [
           {
             loader: 'style-loader',
