@@ -46,3 +46,23 @@ export const getSelectedNodeIds = createSelector(
     return getSelectedNodeIdsRecursive(nodes);
   }
 );
+
+/**
+ * Gets the initial form values for creating a new controlling account.
+ */
+export const getCreateInitialValues = createSelector(
+  [getSelectedNodeIds, getData],
+  (nodeIds, nodes) => {
+    if (nodeIds.length < 1) {
+      return {};
+    }
+
+    const parentNodeId = nodeIds[0];
+    const parentNode = nodes.find(node => node.id === parentNodeId);
+
+    return {
+      p_ctrl_acct_id: parentNode.id,
+      n_level: parentNode.n_level + 1
+    };
+  }
+);
