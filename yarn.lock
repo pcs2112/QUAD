@@ -3968,7 +3968,7 @@ isstream@~0.1.2:
 
 "javascript-utils@git+https://github.com/pcs2112/javascript-utils.git":
   version "0.0.51"
-  resolved "git+https://github.com/pcs2112/javascript-utils.git#d1292e03ade1dfe5dde1c94835a407f5e0977efe"
+  resolved "git+https://github.com/pcs2112/javascript-utils.git#e3a9f4f332520867ef739cf1dbb930c6c43cfbcc"
   dependencies:
     lodash "^4.17.11"
     moment "2.23.0"
@@ -3976,6 +3976,8 @@ isstream@~0.1.2:
     react "16.7.0"
     react-router "^4.3.1"
     react-router-config "1.0.0-beta.4"
+    react-virtualized "^9.21.0"
+    react-virtualized-tree "^2.3.10"
     redux-object "0.5.7"
     reselect "^4.0.0"
 
