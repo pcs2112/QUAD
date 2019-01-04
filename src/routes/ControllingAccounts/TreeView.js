@@ -2,77 +2,44 @@ import 'react-virtualized/styles.css';
 import 'react-virtualized-tree/lib/main.css';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import TreeContainer, { renderers } from 'react-virtualized-tree';
-import Selection, { MAX_SELECT } from './Selection';
-
-const { Expandable } = renderers;
-const iconsClassNameMap = {
-  expanded: 'angle down icon',
-  collapsed: 'angle right icon',
-  lastChild: ''
-};
+import TreeContainer from 'react-virtualized-tree';
+import Expandable, { EXPAND } from './Expandable';
+import Selection, { SELECT } from './Selection';
 
 class TreeView extends Component {
   static propTypes = {
-    nodes: PropTypes.array.isRequired
+    nodes: PropTypes.array.isRequired,
+    onExpand: PropTypes.func.isRequired,
+    onSelect: PropTypes.func.isRequired
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      nodes: props.nodes
-    };
-  }
+  noop = () => {};
 
-  handleChange = (nodes) => {
-    this.setState({ nodes });
+  nodeExpandHandler = (nodes, updatedNode) => {
+    const { onExpand } = this.props;
+    onExpand(nodes, updatedNode);
   };
 
-  selectNodes = (nodes, selected) => (
-    nodes.map(n => ({
-      ...n,
-      children: n.children ? this.selectNodes(n.children, selected) : [],
-      state: {
-        ...n.state,
-        selected
-      }
-    }))
-  );
-
-  nodeSelectionHandler = (nodes, updatedNode) => (
-    nodes.map((node) => {
-      if (node.id === updatedNode.id) {
-        return {
-          ...updatedNode,
-          children: node.children ? this.selectNodes(node.children, updatedNode.state.selected) : []
-        };
-      }
-
-      if (node.children) {
-        return {
-          ...node,
-          children: this.nodeSelectionHandler(node.children, updatedNode)
-        };
-      }
-
-      return node;
-    })
-  );
+  nodeSelectionHandler = (nodes, updatedNode) => {
+    const { onSelect } = this.props;
+    onSelect(nodes, updatedNode);
+  };
 
   render() {
-    const { nodes } = this.state;
+    const { nodes } = this.props;
     return (
       <TreeContainer
         nodes={nodes}
-        onChange={this.handleChange}
+        onChange={this.noop}
         extensions={{
           updateTypeHandlers: {
-            [MAX_SELECT]: this.nodeSelectionHandler
-          },
+            [EXPAND]: this.nodeExpandHandler,
+            [SELECT]: this.nodeSelectionHandler
+          }
         }}
       >
         {({ node, ...rest }) => (
-          <Expandable node={node} iconsClassNameMap={iconsClassNameMap} {...rest}>
+          <Expandable node={node} {...rest}>
             <Selection node={node} {...rest}>
               {node.name}
             </Selection>
