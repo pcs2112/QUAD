@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import { submitEvent } from 'react-virtualized-tree/lib/eventWrappers';
 
-export const MAX_SELECT = 3;
+export const SELECT = 3;
 
 const Selection = ({ node, children, onChange }) => {
   const { state: { selected } = {} } = node;
@@ -11,23 +12,25 @@ const Selection = ({ node, children, onChange }) => {
     'square outline icon': !selected,
   });
 
+  const handleChange = () => onChange({
+    node: {
+      ...node,
+      state: {
+        ...(node.state || {}),
+        selected: !selected
+      },
+    },
+    type: SELECT
+  });
+
   return (
     <span>
-      <i // eslint-disable-line
+      <i
         role="button"
+        tabIndex={0}
         className={className}
-        onClick={() => (
-          onChange({
-            node: {
-              ...node,
-              state: {
-                ...(node.state || {}),
-                selected: !selected
-              },
-            },
-            type: MAX_SELECT
-          })
-        )}
+        onClick={handleChange}
+        onKeyDown={submitEvent(handleChange)}
       />
       {children}
     </span>
