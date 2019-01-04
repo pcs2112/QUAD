@@ -1,10 +1,15 @@
+import { catchValidation } from 'helpers/redux';
+
 export const actionTypes = {
   FETCH_BEGIN: 'controllingAccounts/FETCH_BEGIN',
   FETCH_SUCCESS: 'controllingAccounts/FETCH_SUCCESS',
   FETCH_FAIL: 'controllingAccounts/FETCH_FAIL',
   RESET: 'controllingAccounts/RESET',
   SELECT_NODE: 'controllingAccounts/SELECT_NODE',
-  UPDATE_NODE: 'controllingAccounts/UPDATE_NODE'
+  UPDATE_NODE: 'controllingAccounts/UPDATE_NODE',
+  CREATE_BEGIN: 'controllingAccounts/CREATE_BEGIN',
+  CREATE_SUCCESS: 'controllingAccounts/CREATE_SUCCESS',
+  CREATE_FAIL: 'controllingAccounts/CREATE_FAIL'
 };
 
 /**
@@ -29,7 +34,7 @@ export const reset = () => ({
 /**
  * Action used to mark as selected the specified item and its children.
  */
-export const select = (nodes, node) => ({
+export const selectNode = (nodes, node) => ({
   type: actionTypes.SELECT_NODE,
   payload: {
     nodes,
@@ -40,10 +45,27 @@ export const select = (nodes, node) => ({
 /**
  * Action used to update a prop in the specified item.
  */
-export const update = (nodes, node) => ({
+export const updateNode = (nodes, node) => ({
   type: actionTypes.UPDATE_NODE,
   payload: {
     nodes,
     node
   }
+});
+
+/**
+ * Action to create a new controlling account.
+ *
+ * @param {Object} data
+ */
+export const create = data => ({
+  types: [
+    actionTypes.CREATE_BEGIN,
+    actionTypes.CREATE_SUCCESS,
+    actionTypes.CREATE_FAIL
+  ],
+  makeRequest: client => client.post('/api/controlling_accounts', {
+    data
+  })
+    .catch(catchValidation)
 });
