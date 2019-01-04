@@ -39,7 +39,7 @@ const Selection = ({ node, children, onChange }) => {
 
 Selection.propTypes = {
   node: PropTypes.object.isRequired,
-  children: PropTypes.array.isRequired,
+  children: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired
 };
 
