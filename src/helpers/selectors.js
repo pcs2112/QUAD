@@ -37,7 +37,10 @@ export const getSelectedNodeIdsRecursive = (nodes) => {
   const ids = [];
   nodes.forEach((node) => {
     if (node.children && node.children.length > 0) {
-      ids.concat(getSelectedNodesCountRecursive(node.children));
+      const newIds = getSelectedNodeIdsRecursive(node.children);
+      newIds.forEach((newId) => {
+        ids.push(newId);
+      });
     }
 
     if (node.state && node.state.selected) {
