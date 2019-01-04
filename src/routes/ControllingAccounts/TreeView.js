@@ -3,8 +3,8 @@ import 'react-virtualized-tree/lib/main.css';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import TreeContainer from 'react-virtualized-tree';
-import Expandable, { EXPAND } from './Expandable';
-import Selection, { SELECT } from './Selection';
+import ExpandableNode, { EXPAND } from './ExpandableNode';
+import SelectionNode, { SELECT } from './SelectionNode';
 
 class TreeView extends Component {
   static propTypes = {
@@ -39,11 +39,11 @@ class TreeView extends Component {
         }}
       >
         {({ node, ...rest }) => (
-          <Expandable node={node} {...rest}>
-            <Selection node={node} {...rest}>
+          <ExpandableNode node={node} {...rest}>
+            <SelectionNode node={node} {...rest}>
               {node.name}
-            </Selection>
-          </Expandable>
+            </SelectionNode>
+          </ExpandableNode>
         )}
       </TreeContainer>
     );

@@ -11,7 +11,8 @@ const treeContainerStyles = { height: '400px', position: 'relative' };
 
 class ControllingAccounts extends Component {
   static propTypes = {
-    nodes: PropTypes.array,
+    nodes: PropTypes.array.isRequired,
+    selectedNodesCount: PropTypes.number.isRequired,
     fetch: PropTypes.func.isRequired,
     expand: PropTypes.func.isRequired,
     select: PropTypes.func.isRequired
@@ -25,7 +26,9 @@ class ControllingAccounts extends Component {
   }
 
   render() {
-    const { nodes, expand, select } = this.props;
+    const {
+      nodes, selectedNodesCount, expand, select
+    } = this.props;
     return (
       <Fragment>
         <PageHeader headerText="Controlling Accounts" />
@@ -43,11 +46,7 @@ class ControllingAccounts extends Component {
             <Grid.Column width={16}>
               <Button
                 size="small"
-              >
-                View Account
-              </Button>
-              <Button
-                size="small"
+                disabled={selectedNodesCount !== 1}
               >
                 Add Account
               </Button>
@@ -61,7 +60,8 @@ class ControllingAccounts extends Component {
 
 export default withMainLayout(connect(
   state => ({
-    nodes: controllingAccountsReduxModule.selectors.getNodes(state)
+    nodes: controllingAccountsReduxModule.selectors.getNodes(state),
+    selectedNodesCount: controllingAccountsReduxModule.selectors.getSelectedNodesCount(state)
   }),
   dispatch => ({
     fetch: () => dispatch(controllingAccountsReduxModule.actions.fetch()),

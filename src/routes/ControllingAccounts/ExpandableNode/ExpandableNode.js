@@ -7,7 +7,7 @@ import { Renderer } from 'react-virtualized-tree/lib/shapes/rendererShapes';
 
 export const EXPAND = 2;
 
-const Expandable = ({
+const ExpandableNode = ({
   onChange,
   node,
   children,
@@ -40,7 +40,7 @@ const Expandable = ({
   );
 };
 
-Expandable.propTypes = {
+ExpandableNode.propTypes = {
   ...Renderer,
   iconsClassNameMap: PropTypes.shape({
     expanded: PropTypes.string,
@@ -49,4 +49,4 @@ Expandable.propTypes = {
   }),
 };
 
-export default Expandable;
+export default ExpandableNode;

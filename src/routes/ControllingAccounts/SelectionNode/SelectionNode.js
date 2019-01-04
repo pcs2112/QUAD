@@ -5,7 +5,7 @@ import { submitEvent } from 'react-virtualized-tree/lib/eventWrappers';
 
 export const SELECT = 3;
 
-const Selection = ({ node, children, onChange }) => {
+const SelectionNode = ({ node, children, onChange }) => {
   const { state: { selected } = {} } = node;
   const className = classNames({
     'check square outline icon': selected,
@@ -37,10 +37,10 @@ const Selection = ({ node, children, onChange }) => {
   );
 };
 
-Selection.propTypes = {
+SelectionNode.propTypes = {
   node: PropTypes.object.isRequired,
   children: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired
 };
 
-export default Selection;
+export default SelectionNode;
