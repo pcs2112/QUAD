@@ -1,47 +1,59 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Segment, Grid, Button } from 'semantic-ui-react';
 import controllingAccountsReduxModule from 'redux/modules/controllingAccounts';
 import withMainLayout from 'components/WithMainLayout';
 import PageHeader from 'components/PageHeader';
 import TreeView from './TreeView';
 
+const treeContainerStyles = { height: '400px', position: 'relative' };
+
 class ControllingAccounts extends Component {
   static propTypes = {
-    data: PropTypes.arrayOf(PropTypes.shape({
-      balance: PropTypes.number.isRequired,
-      code: PropTypes.string.isRequired,
-      def_acct: PropTypes.number,
-      id: PropTypes.number.isRequired,
-      insert_dttm: PropTypes.string.isRequired,
-      lst_mod_user: PropTypes.string.isRequired,
-      m_dr_cr: PropTypes.number.isRequired,
-      n_level: PropTypes.number,
-      name: PropTypes.string.isRequired,
-      note_id: PropTypes.number,
-      p_ctrl_acct_id: PropTypes.number.isRequired,
-      p_path: PropTypes.string.isRequired,
-      r_unit_id: PropTypes.number.isRequired,
-      r_user_id: PropTypes.number.isRequired,
-      reserved: PropTypes.number,
-      update_dttm: PropTypes.string.isRequired
-    })),
-    fetch: PropTypes.func.isRequired
+    nodes: PropTypes.array,
+    fetch: PropTypes.func.isRequired,
+    expand: PropTypes.func.isRequired,
+    select: PropTypes.func.isRequired
   };
 
   componentDidMount() {
-    const { fetch } = this.props;
-    fetch();
+    const { nodes, fetch } = this.props;
+    if (nodes === false || nodes.length < 1) {
+      fetch();
+    }
   }
 
   render() {
-    const { data } = this.props;
+    const { nodes, expand, select } = this.props;
     return (
       <Fragment>
         <PageHeader headerText="Controlling Accounts" />
-        <div style={{ height: '400px', position: 'relative' }}>
-          <TreeView nodes={data} />
-        </div>
+        <Segment>
+          <div style={treeContainerStyles}>
+            <TreeView
+              nodes={nodes}
+              onExpand={expand}
+              onSelect={select}
+            />
+          </div>
+        </Segment>
+        <Segment>
+          <Grid>
+            <Grid.Column width={16}>
+              <Button
+                size="small"
+              >
+                View Account
+              </Button>
+              <Button
+                size="small"
+              >
+                Add Account
+              </Button>
+            </Grid.Column>
+          </Grid>
+        </Segment>
       </Fragment>
     );
   }
@@ -49,9 +61,15 @@ class ControllingAccounts extends Component {
 
 export default withMainLayout(connect(
   state => ({
-    data: controllingAccountsReduxModule.selectors.getTreeData(state)
+    nodes: controllingAccountsReduxModule.selectors.getNodes(state)
   }),
   dispatch => ({
-    fetch: () => dispatch(controllingAccountsReduxModule.actions.fetch())
+    fetch: () => dispatch(controllingAccountsReduxModule.actions.fetch()),
+    expand: (nodes, node) => (
+      dispatch(controllingAccountsReduxModule.actions.update(nodes, node))
+    ),
+    select: (nodes, node) => (
+      dispatch(controllingAccountsReduxModule.actions.select(nodes, node))
+    )
   })
 )(ControllingAccounts));
