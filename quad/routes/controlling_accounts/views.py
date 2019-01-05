@@ -8,7 +8,7 @@ blueprint = Blueprint('controlling_accounts', __name__, url_prefix='/api/control
 
 
 @blueprint.route('/', defaults={'path': 'all'})
-@blueprint.route('/<path:path>', methods=('GET',))
+@blueprint.route('/<path:path>', methods=('GET', 'POST',))
 @nocache
 def get_sp_data(path):
     return execute_sp_func_from_view(path, path_sp_args_map)
