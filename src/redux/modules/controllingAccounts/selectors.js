@@ -57,7 +57,7 @@ export const getCreateInitialValues = createSelector(
       return {};
     }
 
-    const parentNodeId = nodeIds[0];
+    const parentNodeId = nodeIds[nodeIds.length - 1];
     const parentNode = nodes.find(node => node.id === parentNodeId);
 
     return {
