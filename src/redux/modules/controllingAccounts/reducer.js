@@ -41,11 +41,19 @@ export default (state = initialState, action) => {
     case actionTypes.SELECT_NODE: {
       return treeNodeSelectReducer(state, action);
     }
-    case actionTypes.ADD_NODE: {
-      return treeNodeSelectReducer(state, action);
-    }
+    case actionTypes.ADD_NODE:
     case actionTypes.UPDATE_NODE: {
       return treeNodeUpdateReducer(state, action);
+    }
+    case actionTypes.CREATE_SUCCESS: {
+      const newNode = action.response;
+      return {
+        ...state,
+        data: [
+          ...state.data,
+          ...newNode
+        ]
+      };
     }
     default:
       return state;
