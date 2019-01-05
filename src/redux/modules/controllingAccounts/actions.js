@@ -76,7 +76,7 @@ export const create = data => ({
     actionTypes.CREATE_SUCCESS,
     actionTypes.CREATE_FAIL
   ],
-  makeRequest: client => client.post('/api/controlling_accounts', {
+  makeRequest: client => client.post('/api/controlling_accounts/create', {
     data
   })
     .catch(catchValidation)
