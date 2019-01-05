@@ -6,6 +6,7 @@ export const actionTypes = {
   FETCH_FAIL: 'controllingAccounts/FETCH_FAIL',
   RESET: 'controllingAccounts/RESET',
   SELECT_NODE: 'controllingAccounts/SELECT_NODE',
+  ADD_NODE: 'controllingAccounts/ADD_NODE',
   UPDATE_NODE: 'controllingAccounts/UPDATE_NODE',
   CREATE_BEGIN: 'controllingAccounts/CREATE_BEGIN',
   CREATE_SUCCESS: 'controllingAccounts/CREATE_SUCCESS',
@@ -32,7 +33,7 @@ export const reset = () => ({
 });
 
 /**
- * Action used to mark as selected the specified item and its children.
+ * Action used to mark a node and its children as selected.
  */
 export const selectNode = (nodes, node) => ({
   type: actionTypes.SELECT_NODE,
@@ -43,7 +44,18 @@ export const selectNode = (nodes, node) => ({
 });
 
 /**
- * Action used to update a prop in the specified item.
+ * Action used to add a node.
+ */
+export const addNode = node => ({
+  type: actionTypes.ADD_NODE,
+  payload: {
+    node,
+    parentNodeId: node.p_ctrl_acct_id
+  }
+});
+
+/**
+ * Action used to update a node.
  */
 export const updateNode = (nodes, node) => ({
   type: actionTypes.UPDATE_NODE,
