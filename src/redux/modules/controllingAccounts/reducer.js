@@ -38,7 +38,7 @@ export default (state = initialState, action) => {
       newState.nodes = treeify(newState.data, 'id', 'p_ctrl_acct_id');
       return newState;
     }
-    case actionTypes.SELECT_NODE: {
+    case actionTypes.SINGLE_SELECT_NODE: {
       return treeNodeSelectReducer(state, action);
     }
     case actionTypes.ADD_NODE:
@@ -46,12 +46,12 @@ export default (state = initialState, action) => {
       return treeNodeUpdateReducer(state, action);
     }
     case actionTypes.CREATE_SUCCESS: {
-      const newNode = action.response;
+      const newNode = action.response[0];
       return {
         ...state,
         data: [
           ...state.data,
-          ...newNode
+          { ...newNode }
         ]
       };
     }

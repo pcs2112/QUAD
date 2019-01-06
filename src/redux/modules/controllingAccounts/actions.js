@@ -5,7 +5,7 @@ export const actionTypes = {
   FETCH_SUCCESS: 'controllingAccounts/FETCH_SUCCESS',
   FETCH_FAIL: 'controllingAccounts/FETCH_FAIL',
   RESET: 'controllingAccounts/RESET',
-  SELECT_NODE: 'controllingAccounts/SELECT_NODE',
+  SINGLE_SELECT_NODE: 'controllingAccounts/SINGLE_SELECT_NODE',
   ADD_NODE: 'controllingAccounts/ADD_NODE',
   UPDATE_NODE: 'controllingAccounts/UPDATE_NODE',
   CREATE_BEGIN: 'controllingAccounts/CREATE_BEGIN',
@@ -36,7 +36,7 @@ export const reset = () => ({
  * Action used to mark a node and its children as selected.
  */
 export const selectNode = (nodes, node) => ({
-  type: actionTypes.SELECT_NODE,
+  type: actionTypes.SINGLE_SELECT_NODE,
   payload: {
     nodes,
     node
