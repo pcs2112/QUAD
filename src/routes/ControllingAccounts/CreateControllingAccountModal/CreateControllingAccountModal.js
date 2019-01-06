@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Modal, Header } from 'semantic-ui-react';
-import { connectModal, hideModal } from 'redux-modal';
+import { connectModal } from 'redux-modal';
+import { reset } from 'redux-form';
 import controllingAccountsReduxModule from 'redux/modules/controllingAccounts';
 import withControllingAccountForm from '../WithControllingAccountForm';
 
@@ -25,6 +26,7 @@ const CreateControllingAccountModal = ({
         initialValues={initialValues}
         onSubmit={onSubmit}
         onSubmitSuccess={onSubmitSuccess}
+        successMessage="The controlling account was created successfully."
       />
     </Modal.Content>
   </Modal>
@@ -45,10 +47,12 @@ export default connectModal(
   state => ({
     initialValues: controllingAccountsReduxModule.selectors.getCreateInitialValues(state)
   }),
-  dispatch => ({
+  (dispatch, ownProps) => ({
     onSubmit: data => dispatch(controllingAccountsReduxModule.actions.create(data)),
-    onSubmitSuccess: () => {
-      dispatch(hideModal());
+    onSubmitSuccess: (res) => {
+      const { name } = ownProps;
+      dispatch(reset(`${name}_FORM`));
+      dispatch(controllingAccountsReduxModule.actions.addNode(res[0]));
     }
   })
 );

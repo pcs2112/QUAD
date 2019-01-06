@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { reduxForm, Field } from 'redux-form';
 import { Button } from 'semantic-ui-react';
 import { withBasicForm, TextField } from 'react-components/lib/components/semantic-ui-react';
-import { createValidators, updateValidators } from './validators';
+import { validators } from './validators';
 
 const withControllingAccountForm = (scenario) => {
   const WithControllingAccountForm = ({
@@ -27,15 +27,8 @@ const withControllingAccountForm = (scenario) => {
     pristine: PropTypes.bool
   };
 
-  let validate;
-  if (scenario === 'create') {
-    validate = createValidators;
-  } else {
-    validate = updateValidators;
-  }
-
   return reduxForm({
-    validate,
+    validate: validators[scenario],
     fields: [
       'code',
       'name',
