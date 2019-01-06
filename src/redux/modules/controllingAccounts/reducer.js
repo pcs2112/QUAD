@@ -35,6 +35,19 @@ export default (state = initialState, action) => {
     }
     case actionTypes.FETCH_SUCCESS: {
       const newState = itemListReducer(state, action);
+      const { data } = newState;
+      newState.data = data.map((item) => {
+        if (item.id === 1) {
+          return {
+            ...item,
+            state: {
+              expanded: true
+            }
+          };
+        }
+
+        return item;
+      });
       newState.nodes = treeify(newState.data, 'id', 'p_ctrl_acct_id');
       return newState;
     }
