@@ -1,51 +1,85 @@
 import 'react-virtualized/styles.css';
-import 'react-virtualized-tree/lib/main.css';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import TreeContainer from 'react-virtualized-tree';
-import ExpandableNode, { EXPAND } from '../ExpandableNode';
-import SelectionNode, { SELECT } from '../SelectionNode';
+import AutoSizer from 'react-virtualized/dist/es/AutoSizer';
+import Table, { Column } from 'react-virtualized/dist/es/Table';
+import styles from './styles.less';
 
 class TreeView extends Component {
   static propTypes = {
-    nodes: PropTypes.array.isRequired,
-    onExpand: PropTypes.func.isRequired,
-    onSelect: PropTypes.func.isRequired
+    data: PropTypes.array.isRequired
   };
 
-  noop = () => {};
+  _rowClassName = ({ index }) => {
+    if (index < 0) {
+      return styles.headerRow;
+    }
 
-  nodeExpandHandler = (nodes, updatedNode) => {
-    const { onExpand } = this.props;
-    onExpand(nodes, updatedNode);
+    return index % 2 === 0 ? styles.evenRow : styles.oddRow;
   };
 
-  nodeSelectionHandler = (nodes, updatedNode) => {
-    const { onSelect } = this.props;
-    onSelect(nodes, updatedNode);
+  _noRowsRenderer = () => <div className={styles.noRows}>No rows</div>;
+
+  _nameCellRenderer = ({ rowData, cellData }) => {
+    if (rowData.n_level < 1) {
+      return cellData;
+    }
+
+    const blank = '    '.repeat(rowData.n_level);
+    return blank + cellData;
   };
 
   render() {
-    const { nodes } = this.props;
+    const { data } = this.props;
+    const rowGetter = ({ index }) => data[index];
+
     return (
-      <TreeContainer
-        nodes={nodes}
-        onChange={this.noop}
-        extensions={{
-          updateTypeHandlers: {
-            [EXPAND]: this.nodeExpandHandler,
-            [SELECT]: this.nodeSelectionHandler
-          }
-        }}
-      >
-        {({ node, ...rest }) => (
-          <ExpandableNode node={node} {...rest}>
-            <SelectionNode node={node} {...rest}>
-              {node.name}
-            </SelectionNode>
-          </ExpandableNode>
+      <AutoSizer disableHeight>
+        {({ width }) => (
+          <Table
+            ref={(ref) => { this.Table = ref; }}
+            headerClassName={styles.headerColumn}
+            headerHeight={24}
+            height={300}
+            noRowsRenderer={this._noRowsRenderer}
+            overscanRowCount={10}
+            rowClassName={this._rowClassName}
+            rowHeight={24}
+            rowGetter={rowGetter}
+            rowCount={data.length}
+            width={width}
+          >
+            <Column
+              dataKey="name"
+              label="NAME"
+              width={300}
+              cellRenderer={this._nameCellRenderer}
+              className={styles.nameColumn}
+            />
+            <Column
+              dataKey="code"
+              label="CODE"
+              width={150}
+            />
+            <Column
+              dataKey="insert_dttm"
+              label="CREATED"
+              width={150}
+            />
+            <Column
+              dataKey="update_dttm"
+              label="MODIFIED"
+              width={150}
+            />
+            <Column
+              width={150}
+              dataKey="balance"
+              label="BALANCE"
+              flexGrow={1}
+            />
+          </Table>
         )}
-      </TreeContainer>
+      </AutoSizer>
     );
   }
 }

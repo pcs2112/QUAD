@@ -14,7 +14,7 @@ const CREATE_CONTROLLING_ACCOUNT_MODAL = 'CREATE_CONTROLLING_ACCOUNT_MODAL';
 
 class ControllingAccounts extends Component {
   static propTypes = {
-    nodes: PropTypes.array.isRequired,
+    data: PropTypes.array.isRequired,
     selectedNodesCount: PropTypes.number.isRequired,
     fetch: PropTypes.func.isRequired,
     expand: PropTypes.func.isRequired,
@@ -23,15 +23,15 @@ class ControllingAccounts extends Component {
   };
 
   componentDidMount() {
-    const { nodes, fetch } = this.props;
-    if (nodes === false || nodes.length < 1) {
+    const { data, fetch } = this.props;
+    if (data === false || data.length < 1) {
       fetch();
     }
   }
 
   render() {
     const {
-      nodes, selectedNodesCount, expand, select, showCreateControllingAccountModal
+      data, selectedNodesCount, expand, select, showCreateControllingAccountModal
     } = this.props;
     return (
       <Fragment>
@@ -39,7 +39,7 @@ class ControllingAccounts extends Component {
         <Segment>
           <div style={treeContainerStyles}>
             <TreeView
-              nodes={nodes}
+              data={data}
               onExpand={expand}
               onSelect={select}
             />
@@ -66,7 +66,7 @@ class ControllingAccounts extends Component {
 
 export default withMainLayout(connect(
   state => ({
-    nodes: controllingAccountsReduxModule.selectors.getNodes(state),
+    data: controllingAccountsReduxModule.selectors.getData(state),
     selectedNodesCount: controllingAccountsReduxModule.selectors.getSelectedNodesCount(state)
   }),
   dispatch => ({
