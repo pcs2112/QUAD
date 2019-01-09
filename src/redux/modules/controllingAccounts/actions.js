@@ -5,9 +5,9 @@ export const actionTypes = {
   FETCH_SUCCESS: 'controllingAccounts/FETCH_SUCCESS',
   FETCH_FAIL: 'controllingAccounts/FETCH_FAIL',
   RESET: 'controllingAccounts/RESET',
-  SINGLE_SELECT_NODE: 'controllingAccounts/SINGLE_SELECT_NODE',
-  ADD_NODE: 'controllingAccounts/ADD_NODE',
-  UPDATE_NODE: 'controllingAccounts/UPDATE_NODE',
+  EXPAND: 'controllingAccounts/EXPAND',
+  ADD: 'controllingAccounts/ADD',
+  UPDATE: 'controllingAccounts/UPDATE',
   CREATE_BEGIN: 'controllingAccounts/CREATE_BEGIN',
   CREATE_SUCCESS: 'controllingAccounts/CREATE_SUCCESS',
   CREATE_FAIL: 'controllingAccounts/CREATE_FAIL'
@@ -35,33 +35,32 @@ export const reset = () => ({
 /**
  * Action used to mark a node and its children as selected.
  */
-export const selectNode = (nodes, node) => ({
-  type: actionTypes.SINGLE_SELECT_NODE,
+export const expand = (item, isExpanded) => ({
+  type: actionTypes.EXPAND,
   payload: {
-    nodes,
-    node
+    item,
+    isExpanded
   }
 });
 
 /**
- * Action used to add a node.
+ * Action used to add an item.
  */
-export const addNode = node => ({
-  type: actionTypes.ADD_NODE,
+export const add = item => ({
+  type: actionTypes.ADD,
   payload: {
-    node,
-    parentNodeId: node.p_ctrl_acct_id
+    item,
+    parentId: item.p_ctrl_acct_id
   }
 });
 
 /**
- * Action used to update a node.
+ * Action used to update an item.
  */
-export const updateNode = (nodes, node) => ({
-  type: actionTypes.UPDATE_NODE,
+export const update = item => ({
+  type: actionTypes.UPDATE,
   payload: {
-    nodes,
-    node
+    item
   }
 });
 

@@ -1,23 +1,77 @@
-import { treeify } from 'javascript-utils/lib/array';
 import {
   itemListReducerFor,
   itemListReducerForInitalState,
-  treeNodeSelectReducerFor,
-  treeNodeUpdateReducerFor,
-  treeNodeSelectReducerForInitalState
 } from 'javascript-utils/lib/redux/reducers';
 import { actionTypes } from './actions';
 
 // Initial state
 const initialState = {
   ...itemListReducerForInitalState,
-  ...treeNodeSelectReducerForInitalState
+  loopupIdx: {}
 };
 
 // Create helper reducers
 const itemListReducer = itemListReducerFor(actionTypes);
-const treeNodeSelectReducer = treeNodeSelectReducerFor(actionTypes);
-const treeNodeUpdateReducer = treeNodeUpdateReducerFor(actionTypes);
+
+const fetchReducer = (state, action) => {
+  const newState = itemListReducer(state, action);
+  const { data } = newState;
+  const parentsIdx = { 0: 1 };
+  const loopupIdx = {};
+
+  data.forEach((item) => {
+    parentsIdx[item.p_ctrl_acct_id] = true;
+  });
+
+  newState.data = data.map((item, i) => {
+    loopupIdx[item.id] = i;
+    if (item.id === 1) {
+      return {
+        ...item,
+        state: {
+          isExpanded: true,
+          hasChildren: true
+        }
+      };
+    }
+
+    return {
+      ...item,
+      state: {
+        isExpanded: false,
+        hasChildren: parentsIdx[item.id] || false
+      }
+    };
+  });
+
+  newState.loopupIdx = loopupIdx;
+
+  return newState;
+};
+
+const expandReducer = (state, action) => {
+  const { item, isExpanded } = action.payload;
+  const { data, loopupIdx } = state;
+
+  const index = loopupIdx[item.id];
+
+  const newData = [
+    ...data
+  ];
+
+  newData[index] = {
+    ...item,
+    state: {
+      ...item.state,
+      isExpanded
+    }
+  };
+
+  return {
+    ...state,
+    data: newData
+  };
+};
 
 /**
  * Controlling accounts reducer.
@@ -33,31 +87,8 @@ export default (state = initialState, action) => {
     case actionTypes.RESET: {
       return itemListReducer(state, action);
     }
-    case actionTypes.FETCH_SUCCESS: {
-      const newState = itemListReducer(state, action);
-      const { data } = newState;
-      newState.data = data.map((item) => {
-        if (item.id === 1) {
-          return {
-            ...item,
-            state: {
-              expanded: true
-            }
-          };
-        }
-
-        return item;
-      });
-      newState.nodes = treeify(newState.data, 'id', 'p_ctrl_acct_id');
-      return newState;
-    }
-    case actionTypes.SINGLE_SELECT_NODE: {
-      return treeNodeSelectReducer(state, action);
-    }
-    case actionTypes.ADD_NODE:
-    case actionTypes.UPDATE_NODE: {
-      return treeNodeUpdateReducer(state, action);
-    }
+    case actionTypes.FETCH_SUCCESS:
+      return fetchReducer(state, action);
     case actionTypes.CREATE_SUCCESS: {
       const newNode = action.response[0];
       return {
@@ -68,6 +99,8 @@ export default (state = initialState, action) => {
         ]
       };
     }
+    case actionTypes.EXPAND:
+      return expandReducer(state, action);
     default:
       return state;
   }

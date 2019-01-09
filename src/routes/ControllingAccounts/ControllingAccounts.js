@@ -6,7 +6,7 @@ import { showModal } from 'redux-modal';
 import controllingAccountsReduxModule from 'redux/modules/controllingAccounts';
 import withMainLayout from 'components/WithMainLayout';
 import PageHeader from 'components/PageHeader';
-import TreeView from './TreeView';
+import ControllingAccountsTable from './ControllingAccountsTable';
 import CreateControllingAccountModal from './CreateControllingAccountModal';
 
 const treeContainerStyles = { height: '400px', position: 'relative' };
@@ -15,10 +15,8 @@ const CREATE_CONTROLLING_ACCOUNT_MODAL = 'CREATE_CONTROLLING_ACCOUNT_MODAL';
 class ControllingAccounts extends Component {
   static propTypes = {
     data: PropTypes.array.isRequired,
-    selectedNodesCount: PropTypes.number.isRequired,
     fetch: PropTypes.func.isRequired,
     expand: PropTypes.func.isRequired,
-    select: PropTypes.func.isRequired,
     showCreateControllingAccountModal: PropTypes.func.isRequired
   };
 
@@ -31,17 +29,16 @@ class ControllingAccounts extends Component {
 
   render() {
     const {
-      data, selectedNodesCount, expand, select, showCreateControllingAccountModal
+      data, expand, showCreateControllingAccountModal
     } = this.props;
     return (
       <Fragment>
         <PageHeader headerText="Controlling Accounts" />
         <Segment>
           <div style={treeContainerStyles}>
-            <TreeView
+            <ControllingAccountsTable
               data={data}
               onExpand={expand}
-              onSelect={select}
             />
           </div>
         </Segment>
@@ -50,7 +47,7 @@ class ControllingAccounts extends Component {
             <Grid.Column width={16}>
               <Button
                 size="small"
-                disabled={selectedNodesCount < 1}
+                disabled={false}
                 onClick={showCreateControllingAccountModal}
               >
                 Add Account
@@ -66,17 +63,11 @@ class ControllingAccounts extends Component {
 
 export default withMainLayout(connect(
   state => ({
-    data: controllingAccountsReduxModule.selectors.getData(state),
-    selectedNodesCount: controllingAccountsReduxModule.selectors.getSelectedNodesCount(state)
+    data: controllingAccountsReduxModule.selectors.getHierarchyData(state)
   }),
   dispatch => ({
     fetch: () => dispatch(controllingAccountsReduxModule.actions.fetch()),
-    expand: (nodes, node) => (
-      dispatch(controllingAccountsReduxModule.actions.updateNode(nodes, node))
-    ),
-    select: (nodes, node) => (
-      dispatch(controllingAccountsReduxModule.actions.selectNode(nodes, node))
-    ),
+    expand: (item, isExpanded) => dispatch(controllingAccountsReduxModule.actions.expand(item, isExpanded)),
     showCreateControllingAccountModal: () => dispatch(showModal(CREATE_CONTROLLING_ACCOUNT_MODAL))
   })
 )(ControllingAccounts));

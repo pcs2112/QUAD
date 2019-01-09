@@ -1,15 +1,28 @@
 import { createSelector } from 'reselect';
+// import sortBy from 'lodash/sortBy';
 import {
   createDataSelector,
   createGetItemsSelector
 } from 'javascript-utils/lib/selectors';
-import {
-  getSelectedNodesCountRecursive,
-  getSelectedNodeIdsRecursive
-} from 'helpers/selectors';
+import { treeify } from 'javascript-utils/src/array';
+
+const untreeify = (list) => {
+  let result = [];
+  list.forEach((obj) => {
+    const { children } = obj;
+    delete (obj.children);
+    result.push(obj);
+    if (obj.state.isExpanded) {
+      if (Array.isArray(children)) {
+        result = result.concat(untreeify(children));
+      }
+    }
+  });
+
+  return result;
+};
 
 const _getData = createDataSelector('controllingAccounts', 'dataLoaded', 'data');
-const _getNodes = createDataSelector('controllingAccounts', 'dataLoaded', 'nodes');
 
 /**
  * Returns the controlling accounts from the state.
@@ -17,33 +30,17 @@ const _getNodes = createDataSelector('controllingAccounts', 'dataLoaded', 'nodes
 export const getData = createGetItemsSelector(_getData);
 
 /**
- * Returns the tree nodes.
+ * Returns the hierarchy of expanded items and their first level children.
  */
-export const getNodes = createGetItemsSelector(_getNodes);
-
-/**
- * Returns the count of selected nodes.
- */
-export const getSelectedNodesCount = createSelector(
-  [getNodes],
-  (nodes) => {
-    if (nodes.length < 1) {
-      return 0;
-    }
-    return getSelectedNodesCountRecursive(nodes);
-  }
-);
-
-/**
- * Returns the ids of selected nodes.
- */
-export const getSelectedNodeIds = createSelector(
-  [getNodes],
-  (nodes) => {
-    if (nodes.length < 1) {
+export const getHierarchyData = createSelector(
+  [getData],
+  (data) => {
+    if (data.length < 1) {
       return [];
     }
-    return getSelectedNodeIdsRecursive(nodes);
+
+    const treeData = treeify(data, 'id', 'p_ctrl_acct_id');
+    return untreeify(treeData);
   }
 );
 
@@ -51,18 +48,20 @@ export const getSelectedNodeIds = createSelector(
  * Gets the initial form values for creating a new controlling account.
  */
 export const getCreateInitialValues = createSelector(
-  [getSelectedNodeIds, getData],
-  (nodeIds, nodes) => {
-    if (nodeIds.length < 1) {
+  [getData],
+  (data) => {
+    if (data.length < 1) {
       return {};
     }
 
-    const parentNodeId = nodeIds[nodeIds.length - 1];
+    return {};
+
+    /* const parentNodeId = nodeIds[nodeIds.length - 1];
     const parentNode = nodes.find(node => node.id === parentNodeId);
 
     return {
       p_ctrl_acct_id: parentNode.id,
       n_level: parentNode.n_level + 1
-    };
+    }; */
   }
 );
