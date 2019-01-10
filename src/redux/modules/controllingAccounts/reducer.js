@@ -2,35 +2,33 @@ import {
   itemListReducerFor,
   itemListReducerForInitalState,
 } from 'javascript-utils/lib/redux/reducers';
+import { getListIndicesLookupIdx } from 'helpers/utils';
 import { actionTypes } from './actions';
 
 // Initial state
 const initialState = {
   ...itemListReducerForInitalState,
-  loopupIdx: {}
+  lookupIdx: {},
+  selectedId: false
 };
 
 // Create helper reducers
 const itemListReducer = itemListReducerFor(actionTypes);
 
+// Reducer used to handle fetching the controlling accounts
 const fetchReducer = (state, action) => {
   const newState = itemListReducer(state, action);
   const { data } = newState;
-  const parentsIdx = { 0: 1 };
-  const loopupIdx = {};
+  const lookupIdxs = getListIndicesLookupIdx(data, ['id', 'p_ctrl_acct_id']);
 
-  data.forEach((item) => {
-    parentsIdx[item.p_ctrl_acct_id] = true;
-  });
-
-  newState.data = data.map((item, i) => {
-    loopupIdx[item.id] = i;
+  newState.data = data.map((item) => {
     if (item.id === 1) {
       return {
         ...item,
         state: {
           isExpanded: true,
-          hasChildren: true
+          hasChildren: true,
+          isSelected: false
         }
       };
     }
@@ -39,21 +37,23 @@ const fetchReducer = (state, action) => {
       ...item,
       state: {
         isExpanded: false,
-        hasChildren: parentsIdx[item.id] || false
+        hasChildren: lookupIdxs.p_ctrl_acct_id[item.id] || false,
+        isSelected: false
       }
     };
   });
 
-  newState.loopupIdx = loopupIdx;
+  newState.lookupIdx = lookupIdxs.id;
 
   return newState;
 };
 
+// Reducer used to handle expanding a controlling account
 const expandReducer = (state, action) => {
   const { item, isExpanded } = action.payload;
-  const { data, loopupIdx } = state;
+  const { data, lookupIdx } = state;
 
-  const index = loopupIdx[item.id];
+  const index = lookupIdx[item.id];
 
   const newData = [
     ...data
@@ -70,6 +70,55 @@ const expandReducer = (state, action) => {
   return {
     ...state,
     data: newData
+  };
+};
+
+// Reducer used to handle selecting a controlling account
+const selectReducer = (state, action) => {
+  const { item, isSelected } = action.payload;
+  const { data, lookupIdx, selectedId } = state;
+  const newData = [
+    ...data
+  ];
+
+  const index = lookupIdx[item.id];
+
+  if (selectedId !== false) {
+    const oldSelectedItemIndex = lookupIdx[selectedId];
+    const oldSelectedItem = data[oldSelectedItemIndex];
+    const uptOldSelectedItem = {
+      ...oldSelectedItem,
+      state: {
+        ...oldSelectedItem.state,
+        isSelected: false
+      }
+    };
+
+    newData[oldSelectedItemIndex] = uptOldSelectedItem;
+
+    if (oldSelectedItemIndex === index) {
+      return {
+        ...state,
+        data: newData,
+        selectedId: isSelected ? uptOldSelectedItem.id : false
+      };
+    }
+  }
+
+  const newSelectedItem = {
+    ...item,
+    state: {
+      ...item.state,
+      isSelected
+    }
+  };
+
+  newData[index] = newSelectedItem;
+
+  return {
+    ...state,
+    data: newData,
+    selectedId: isSelected ? newSelectedItem.id : false
   };
 };
 
@@ -101,6 +150,8 @@ export default (state = initialState, action) => {
     }
     case actionTypes.EXPAND:
       return expandReducer(state, action);
+    case actionTypes.SELECT:
+      return selectReducer(state, action);
     default:
       return state;
   }
