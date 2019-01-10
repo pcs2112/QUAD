@@ -17,10 +17,12 @@ const itemListReducer = itemListReducerFor(actionTypes);
 
 // Reducer used to handle fetching the controlling accounts
 const fetchReducer = (state, action) => {
+  const oldLookupIdx = { ...state.lookupIdx };
+  const oldData = [...(state.data || [])];
   const newState = itemListReducer(state, action);
-  const { data } = newState;
-  const lookupIdxs = getListIndicesLookupIdx(data, ['id', 'p_ctrl_acct_id']);
+  const { data, selectedId } = newState;
 
+  const lookupIdxs = getListIndicesLookupIdx(data, ['id', 'p_ctrl_acct_id']);
   newState.data = data.map((item) => {
     if (item.id === 1) {
       return {
@@ -33,13 +35,21 @@ const fetchReducer = (state, action) => {
       };
     }
 
+    const oldItemIdx = oldLookupIdx[item.id];
+
     return {
       ...item,
-      state: {
-        isExpanded: false,
-        hasChildren: lookupIdxs.p_ctrl_acct_id[item.id] || false,
-        isSelected: false
-      }
+      state: oldItemIdx
+        ? {
+          ...oldData[oldItemIdx].state,
+          hasChildren: !!lookupIdxs.p_ctrl_acct_id[item.id],
+          isExpanded: selectedId === item.id ? true : oldData[oldItemIdx].state.isExpanded
+        }
+        : {
+          isExpanded: false,
+          hasChildren: !!lookupIdxs.p_ctrl_acct_id[item.id],
+          isSelected: false
+        }
     };
   });
 
@@ -138,16 +148,6 @@ export default (state = initialState, action) => {
     }
     case actionTypes.FETCH_SUCCESS:
       return fetchReducer(state, action);
-    case actionTypes.CREATE_SUCCESS: {
-      const newNode = action.response[0];
-      return {
-        ...state,
-        data: [
-          ...state.data,
-          { ...newNode }
-        ]
-      };
-    }
     case actionTypes.EXPAND:
       return expandReducer(state, action);
     case actionTypes.SELECT:

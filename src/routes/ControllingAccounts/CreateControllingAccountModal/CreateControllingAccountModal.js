@@ -49,10 +49,10 @@ export default connectModal(
   }),
   (dispatch, ownProps) => ({
     onSubmit: data => dispatch(controllingAccountsReduxModule.actions.create(data)),
-    onSubmitSuccess: (res) => {
+    onSubmitSuccess: () => {
       const { name } = ownProps;
       dispatch(reset(`${name}_FORM`));
-      dispatch(controllingAccountsReduxModule.actions.addNode(res[0]));
+      dispatch(controllingAccountsReduxModule.actions.fetch());
     }
   })
 );
