@@ -23,7 +23,10 @@ const ExpandableCell = ({
     [iconsClassNameMap.lastChild]: !hasChildren
   });
 
-  const handleChange = () => onChange(rowData, !isExpanded);
+  const handleChange = (event) => {
+    event.stopPropagation();
+    onChange(rowData, !isExpanded);
+  };
 
   return (
     <span onDoubleClick={handleChange} style={styles}>
