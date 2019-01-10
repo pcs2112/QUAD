@@ -13,17 +13,10 @@ def create(sp_name, sp_message, in_args):
         sp_name,
         sp_message,
         {
-            'IN_CtrlAcct_ID': '',
             'IN_PCtrlAcct_ID': in_args['p_ctrl_acct_id'],
-            'IN_PPath': '',
             'IN_Code': in_args['code'],
             'IN_Name': in_args['name'],
-            'IN_rUser_ID': '',
-            'IN_Balance': '',
-            'IN_rUnit_ID': '',
-            'IN_Note_ID': '',
-            'IN_mDrCr': '',
-            'IN_Reserved': '',
-            'IN_DefAcct': '',
+            'IN_Balance': in_args['balance'],
+            'IN_rUnit_ID': in_args['ctrl_acct_units']
         }
     )

@@ -14,7 +14,7 @@ def get_sp_func_in_args_from_dict(required_args, args):
     :return: Dict of in arguments for the execute_sp_func_from_view function
     """
     out_args = {}
-    
+
     if len(required_args) > 0:
         for required_arg in required_args:
             if required_arg not in args:
@@ -22,9 +22,9 @@ def get_sp_func_in_args_from_dict(required_args, args):
                     f' Missing required argument "{required_arg}".',
                     -1
                 )
-            
+
             out_args[required_arg] = args[required_arg]
-    
+
     return out_args
 
 
@@ -39,14 +39,14 @@ def execute_sp_func_from_view(path, path_sp_args_map):
     """
     if path not in path_sp_args_map:
         raise InvalidUsage.not_found()
-    
+
     path_data = path_sp_args_map[path]
-    
+
     try:
         module = importlib.import_module(path_data['module_name'])
         func = getattr(module, path_data['module_func'])
         request_type = path_data['request_type']
-        
+
         #  Get the SP in arguments from the request
         in_args = {}
         if 'sp_in_args' in path_data:
@@ -54,7 +54,7 @@ def execute_sp_func_from_view(path, path_sp_args_map):
                 path_data['sp_in_args'],
                 request.args if request_type.upper() == 'GET' else request.get_json(silent=True)
             )
-        
+
         return jsonify(func(
             path_data['sp_name'],
             path_data['sp_message'],

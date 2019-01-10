@@ -1,43 +1,6 @@
 from quad.db.db import execute_sp
 from quad.db.exceptions import SPException
-
-
-LEGACY_QUAD_SP_IN_ARGS_LENGTH = 10
-
-
-def fill_in_legacy_quad_sp_in_args():
-    """
-    Helper function to ensure the MWH.UMA_WAREHOUSE_ADMIN_CONSOLE SP
-    is always called with the correct number of in arguments.
-    
-    :return: dict
-    """
-    new_in_args = {}
-    for x in range(1, LEGACY_QUAD_SP_IN_ARGS_LENGTH):
-        in_arg_prefix = '0' if x < 10 else ''
-        in_arg_name = f'VARCHAR_{in_arg_prefix}{x}'
-        new_in_args[in_arg_name] = ''
-        
-    return new_in_args
-
-
-def execute_legacy_quad_sp(*args):
-    """
-    Helper function to execute the MWH.UMA_WAREHOUSE_ADMIN_CONSOLE stored procedure.
-    :return: Stored procedure result sets and out argument
-    :rtype: list
-    """
-    sp_name = args[0]
-    sp_message = args[1]
-
-    in_args = fill_in_legacy_quad_sp_in_args()
-
-    for x in range(2, len(args)):
-        in_arg_prefix = '0' if x < 10 else ''
-        in_arg = f'VARCHAR_{in_arg_prefix}{x - 1}'
-        in_args[in_arg] = str(args[x])
-        
-    return execute_quad_sp(sp_name, sp_message, in_args)
+from quad.db.sp_in_args import sp_in_args as required_sp_in_args
 
 
 def execute_quad_sp(sp_name, sp_message, sp_in_args):
@@ -61,9 +24,13 @@ def execute_quad_sp(sp_name, sp_message, sp_in_args):
     for sp_in_arg in sp_in_args:
         in_args[sp_in_arg] = str(sp_in_args[sp_in_arg])
 
+    # Merge the in args
+    if sp_name in required_sp_in_args:
+        in_args = {**required_sp_in_args[sp_name], **in_args}
+
     result = execute_sp(sp_name, in_args, out_arg)
     result_count = len(result)
- 
+
     status_code = result[result_count - 1][0][0]
 
     if status_code > 1:
@@ -81,12 +48,14 @@ def fetch_error(error_id):
     :param error_id: Error record ID
     :type error_id: int
     """
+    in_args = {**required_sp_in_args['MWH.UMA_WAREHOUSE_ADMIN_CONSOLE'], **{
+        'message': 'GET_ERROR_TEXT',
+        'VARCHAR_01': error_id
+    }}
+
     result = execute_sp(
         'MWH.UMA_WAREHOUSE_ADMIN_CONSOLE',
-        fill_in_legacy_quad_sp_in_args({
-            'message': 'GET_ERROR_TEXT',
-            'VARCHAR_01': error_id
-        })
+        in_args
     )
-    
+
     return result[0][0]

@@ -1,6 +1,6 @@
 from passlib.hash import pbkdf2_sha256 as sha256
 from .exceptions import DBException
-from quad.utils.db import execute_legacy_quad_sp
+from quad.utils.db import execute_quad_sp
 
 
 def fetch_user_by_id(id_):
@@ -9,12 +9,14 @@ def fetch_user_by_id(id_):
     :param id_: User ID
     :type id_: int
     """
-    result = execute_legacy_quad_sp(
-      'MWH.UMA_WAREHOUSE_ADMIN_CONSOLE_REPORTS',
-      'LIST_ADMIN_CONSOLE_USER_BY_ID',
-      id_
+    result = execute_quad_sp(
+        'MWH.UMA_WAREHOUSE_ADMIN_CONSOLE_REPORTS',
+        'LIST_ADMIN_CONSOLE_USER_BY_ID',
+        {
+            'VARCHAR_01': id_
+        }
     )
-    
+
     if len(result) < 1:
         return None
 
@@ -27,12 +29,14 @@ def fetch_user_by_email(email):
     :param email: User email
     :type email: str
     """
-    result = execute_legacy_quad_sp(
-      'MWH.UMA_WAREHOUSE_ADMIN_CONSOLE_REPORTS',
-      'LIST_ADMIN_CONSOLE_USER_BY_EMAIL',
-      email
+    result = execute_quad_sp(
+        'MWH.UMA_WAREHOUSE_ADMIN_CONSOLE_REPORTS',
+        'LIST_ADMIN_CONSOLE_USER_BY_EMAIL',
+        {
+            'VARCHAR_01': email
+        }
     )
-    
+
     if len(result) < 1:
         return None
 
@@ -54,11 +58,13 @@ def login_user(email, password):
     if verify_password_hash(password, user_result['employee_password']) is False:
         raise DBException(f'"{email}" is an invalid account.', -2)
 
-    execute_legacy_quad_sp(
-      'MWH.UMA_WAREHOUSE_ADMIN_CONSOLE',
-      'LOGIN',
-      email,
-      user_result['employee_password']
+    execute_quad_sp(
+        'MWH.UMA_WAREHOUSE_ADMIN_CONSOLE',
+        'LOGIN',
+        {
+            'VARCHAR_01': email,
+            'VARCHAR_02': user_result['employee_password']
+        }
     )
 
     return user_result['id']
@@ -81,12 +87,14 @@ def reset_user_password(email, existing_password, new_password):
     if verify_password_hash(existing_password, user_result['employee_password']) is False:
         raise DBException('The password is invalid.', -2)
 
-    execute_legacy_quad_sp(
-      'MWH.UMA_WAREHOUSE_ADMIN_CONSOLE',
-      'PASSWORD RESET',
-      email,
-      user_result['employee_password'],
-      generate_password_hash(new_password)
+    execute_quad_sp(
+        'MWH.UMA_WAREHOUSE_ADMIN_CONSOLE',
+        'PASSWORD RESET',
+        {
+            'VARCHAR_01': email,
+            'VARCHAR_02': user_result['employee_password'],
+            'VARCHAR_03': generate_password_hash(new_password)
+        }
     )
 
     return user_result['id']
@@ -107,12 +115,14 @@ def forgot_password(data, scenario):
         return ''
 
     if scenario == 3:
-        execute_legacy_quad_sp(
-          'MWH.UMA_WAREHOUSE_ADMIN_CONSOLE',
-          'PASSWORD RESET',
-          user_result['employee_email'],
-          user_result['employee_password'],
-          generate_password_hash(data['new_password'])
+        execute_quad_sp(
+            'MWH.UMA_WAREHOUSE_ADMIN_CONSOLE',
+            'PASSWORD RESET',
+            {
+                'VARCHAR_01': user_result['employee_email'],
+                'VARCHAR_02': user_result['employee_password'],
+                'VARCHAR_03': generate_password_hash(data['new_password'])
+            }
         )
 
         return user_result['id']
