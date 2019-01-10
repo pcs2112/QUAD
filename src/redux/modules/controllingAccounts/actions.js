@@ -6,6 +6,7 @@ export const actionTypes = {
   FETCH_FAIL: 'controllingAccounts/FETCH_FAIL',
   RESET: 'controllingAccounts/RESET',
   EXPAND: 'controllingAccounts/EXPAND',
+  SELECT: 'controllingAccounts/SELECT',
   ADD: 'controllingAccounts/ADD',
   UPDATE: 'controllingAccounts/UPDATE',
   CREATE_BEGIN: 'controllingAccounts/CREATE_BEGIN',
@@ -33,13 +34,24 @@ export const reset = () => ({
 });
 
 /**
- * Action used to mark a node and its children as selected.
+ * Action used to expand an item.
  */
 export const expand = (item, isExpanded) => ({
   type: actionTypes.EXPAND,
   payload: {
     item,
     isExpanded
+  }
+});
+
+/**
+ * Action used to select an item.
+ */
+export const select = (item, isSelected) => ({
+  type: actionTypes.SELECT,
+  payload: {
+    item,
+    isSelected
   }
 });
 
