@@ -1,8 +1,8 @@
 import { createSelector } from 'reselect';
-// import sortBy from 'lodash/sortBy';
 import {
   createDataSelector,
-  createGetItemsSelector
+  createGetItemsSelector,
+  createGetPropertySelector
 } from 'javascript-utils/lib/selectors';
 import { treeify } from 'javascript-utils/src/array';
 
@@ -30,6 +30,16 @@ const _getData = createDataSelector('controllingAccounts', 'dataLoaded', 'data')
 export const getData = createGetItemsSelector(_getData);
 
 /**
+ * Returns the ID of the current selected item.
+ */
+export const getSelectedItemId = createGetPropertySelector('controllingAccounts', 'selectedId');
+
+/**
+ * Returns the ID of the current selected item.
+ */
+export const getLookupIdx = createGetPropertySelector('controllingAccounts', 'loopupIdx');
+
+/**
  * Returns the hierarchy of expanded items and their first level children.
  */
 export const getHierarchyData = createSelector(
@@ -48,20 +58,17 @@ export const getHierarchyData = createSelector(
  * Gets the initial form values for creating a new controlling account.
  */
 export const getCreateInitialValues = createSelector(
-  [getData],
-  (data) => {
-    if (data.length < 1) {
+  [getData, getSelectedItemId, getLookupIdx],
+  (data, parentId, lookupIdx) => {
+    if (data.length < 1 || parentId === false) {
       return {};
     }
 
-    return {};
-
-    /* const parentNodeId = nodeIds[nodeIds.length - 1];
-    const parentNode = nodes.find(node => node.id === parentNodeId);
+    const parent = data[lookupIdx[parentId]];
 
     return {
-      p_ctrl_acct_id: parentNode.id,
-      n_level: parentNode.n_level + 1
-    }; */
+      p_ctrl_acct_id: parent.id,
+      n_level: parent.n_level + 1
+    };
   }
 );
