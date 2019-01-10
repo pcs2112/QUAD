@@ -17,7 +17,9 @@ class ControllingAccounts extends Component {
     data: PropTypes.array.isRequired,
     fetch: PropTypes.func.isRequired,
     expand: PropTypes.func.isRequired,
-    showCreateControllingAccountModal: PropTypes.func.isRequired
+    select: PropTypes.func.isRequired,
+    showCreateControllingAccountModal: PropTypes.func.isRequired,
+    addAccountEnabled: PropTypes.bool.isRequired
   };
 
   componentDidMount() {
@@ -29,16 +31,17 @@ class ControllingAccounts extends Component {
 
   render() {
     const {
-      data, expand, showCreateControllingAccountModal
+      data, expand, select, showCreateControllingAccountModal, addAccountEnabled
     } = this.props;
     return (
       <Fragment>
-        <PageHeader headerText="Controlling Accounts" />
+        <PageHeader headerText="Controlling Account Management" />
         <Segment>
           <div style={treeContainerStyles}>
             <ControllingAccountsTable
               data={data}
               onExpand={expand}
+              onSelect={select}
             />
           </div>
         </Segment>
@@ -47,7 +50,7 @@ class ControllingAccounts extends Component {
             <Grid.Column width={16}>
               <Button
                 size="small"
-                disabled={false}
+                disabled={addAccountEnabled === false}
                 onClick={showCreateControllingAccountModal}
               >
                 Add Account
@@ -63,11 +66,13 @@ class ControllingAccounts extends Component {
 
 export default withMainLayout(connect(
   state => ({
-    data: controllingAccountsReduxModule.selectors.getHierarchyData(state)
+    data: controllingAccountsReduxModule.selectors.getHierarchyData(state),
+    addAccountEnabled: controllingAccountsReduxModule.selectors.getSelectedItemId(state) !== false
   }),
   dispatch => ({
     fetch: () => dispatch(controllingAccountsReduxModule.actions.fetch()),
     expand: (item, isExpanded) => dispatch(controllingAccountsReduxModule.actions.expand(item, isExpanded)),
+    select: (i, item) => dispatch(controllingAccountsReduxModule.actions.select(i, item)),
     showCreateControllingAccountModal: () => dispatch(showModal(CREATE_CONTROLLING_ACCOUNT_MODAL))
   })
 )(ControllingAccounts));
