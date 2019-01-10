@@ -1,14 +1,26 @@
-export const COUNT = 1;
-export const US_DOLLARS = 2;
+export const STUDENT_COUNT = 1;
+export const COURSE_COUNT = 2;
+export const TUITION = 3;
+export const REIMBURSEMENT = 4;
 export default [
   {
-    key: COUNT,
-    value: COUNT,
-    text: 'COUNT'
+    key: STUDENT_COUNT,
+    value: STUDENT_COUNT,
+    text: 'Student Count'
   },
   {
-    key: US_DOLLARS,
-    value: US_DOLLARS,
-    text: 'US_DOLLARS'
+    key: COURSE_COUNT,
+    value: COURSE_COUNT,
+    text: 'Course Count'
+  },
+  {
+    key: TUITION,
+    value: TUITION,
+    text: 'Tuition'
+  },
+  {
+    key: REIMBURSEMENT,
+    value: REIMBURSEMENT,
+    text: 'Reimbursement'
   }
 ];

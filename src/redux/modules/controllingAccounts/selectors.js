@@ -68,7 +68,8 @@ export const getCreateInitialValues = createSelector(
 
     return {
       p_ctrl_acct_id: parent.id,
-      n_level: parent.n_level + 1
+      n_level: parent.n_level + 1,
+      balance: 0
     };
   }
 );

@@ -8,7 +8,8 @@ const createValidators = memoize(10)(createValidator({
   name: required(),
   p_ctrl_acct_id: [required(), numeric()],
   n_level: [required(), numeric()],
-  ctrl_acct_units: required()
+  ctrl_acct_units: required(),
+  balance: [required(), numeric()]
 }));
 
 const updateValidators = memoize(10)(createValidator({
@@ -16,7 +17,8 @@ const updateValidators = memoize(10)(createValidator({
   name: required(),
   p_ctrl_acct_id: [required(), numeric()],
   n_level: [required(), numeric()],
-  ctrl_acct_units: [required(), numeric()]
+  ctrl_acct_units: [required(), numeric()],
+  balance: [required(), numeric()]
 }));
 
 export const validators = {

@@ -21,6 +21,7 @@ const withControllingAccountForm = (scenario) => {
         required
       />
       <Field name="p_ctrl_acct_id" type="hidden" component="input" />
+      <Field name="balance" type="text" component={TextField} label="Starting Balance" required />
       <Field name="n_level" type="hidden" component="input" />
       <div className="field">
         <Button type="submit" fluid size="large" primary disabled={pristine || submitting}>
