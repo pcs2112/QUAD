@@ -9,12 +9,26 @@ import styles from './styles.less';
 class ControllingAccountsTable extends Component {
   static propTypes = {
     data: PropTypes.array.isRequired,
-    onExpand: PropTypes.func.isRequired
+    onExpand: PropTypes.func.isRequired,
+    onSelect: PropTypes.func.isRequired
+  };
+
+  _onSelectHandler = ({ rowData }) => {
+    const { onSelect } = this.props;
+    const { state: { isSelected } } = rowData;
+    onSelect(rowData, !isSelected);
   };
 
   _rowClassName = ({ index }) => {
     if (index < 0) {
       return styles.headerRow;
+    }
+
+    const { data } = this.props;
+    const { state: { isSelected } } = data[index];
+
+    if (isSelected) {
+      return styles.selectedRow;
     }
 
     return index % 2 === 0 ? styles.evenRow : styles.oddRow;
@@ -60,6 +74,7 @@ class ControllingAccountsTable extends Component {
             rowGetter={rowGetter}
             rowCount={data.length}
             width={width}
+            onRowClick={this._onSelectHandler}
           >
             <Column
               dataKey="id"
