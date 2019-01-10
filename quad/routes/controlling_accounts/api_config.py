@@ -11,7 +11,7 @@ path_sp_args_map = {
         'module_func': 'create',
         'sp_name': 'QUAD.MANAGE_CTRLACCT',
         'sp_message': 'ADD',
-        'sp_in_args': ['code', 'name', 'p_ctrl_acct_id', 'n_level'],
+        'sp_in_args': ['code', 'name', 'p_ctrl_acct_id', 'balance', 'ctrl_acct_units'],
         'request_type': 'POST'
     }
 }
