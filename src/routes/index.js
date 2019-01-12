@@ -1,4 +1,5 @@
 import ControllingAccounts from './ControllingAccounts';
+import ControllingAccountsVisual from './ControllingAccountsVisual';
 import Error from './Error';
 import ForgotPassword from './ForgotPassword';
 import Home from './Home';
@@ -13,6 +14,11 @@ export default () => ([
   {
     path: '/ctrlaccts',
     component: ControllingAccounts,
+    exact: true
+  },
+  {
+    path: '/ctrlaccts/visual',
+    component: ControllingAccountsVisual,
     exact: true
   },
   {
