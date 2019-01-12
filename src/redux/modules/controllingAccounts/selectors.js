@@ -55,6 +55,29 @@ export const getTableData = createSelector(
 );
 
 /**
+ * Returns the data used in the controlling accounts visual page.
+ */
+export const getHierarchyData = createSelector(
+  [getData],
+  (data) => {
+    if (data.length < 1) {
+      return [];
+    }
+
+    const newData = data.map(item => ({
+      id: item.id,
+      p_ctrl_acct_id: item.p_ctrl_acct_id,
+      name: item.code,
+      attributes: {
+        balance: item.balance
+      }
+    }));
+
+    return treeify(newData, 'id', 'p_ctrl_acct_id');
+  }
+);
+
+/**
  * Gets the initial form values for creating a new controlling account.
  */
 export const getCreateInitialValues = createSelector(
