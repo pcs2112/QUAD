@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { submitEvent } from 'react-virtualized-tree/lib/eventWrappers';
+import { submitEvent } from 'javascript-utils/lib/eventWrappers';
 
 export const SELECT = 3;
 
