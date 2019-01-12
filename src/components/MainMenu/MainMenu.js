@@ -6,7 +6,7 @@ import { Menu } from 'semantic-ui-react';
 import { menuCss } from './css';
 import logo from './logo.png';
 
-const isActive = (currentPathName, pathName) => currentPathName.indexOf(pathName) > -1;
+const isActive = (currentPathName, pathName) => currentPathName === pathName;
 
 class MainMenu extends Component {
   static propTypes = {
