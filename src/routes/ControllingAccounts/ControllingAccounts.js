@@ -14,6 +14,7 @@ const CREATE_CONTROLLING_ACCOUNT_MODAL = 'CREATE_CONTROLLING_ACCOUNT_MODAL';
 
 class ControllingAccounts extends Component {
   static propTypes = {
+    history: PropTypes.object.isRequired,
     data: PropTypes.array.isRequired,
     fetch: PropTypes.func.isRequired,
     expand: PropTypes.func.isRequired,
@@ -28,6 +29,11 @@ class ControllingAccounts extends Component {
       fetch();
     }
   }
+
+  _handleDisplayClick = () => {
+    const { history } = this.props;
+    history.push('/ctrlaccts/visual');
+  };
 
   render() {
     const {
@@ -48,6 +54,12 @@ class ControllingAccounts extends Component {
         <Segment>
           <Grid>
             <Grid.Column width={16}>
+              <Button
+                size="small"
+                onClick={this._handleDisplayClick}
+              >
+                View Visual
+              </Button>
               <Button
                 size="small"
                 disabled={addAccountEnabled === false}
