@@ -1,10 +1,10 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Segment } from 'semantic-ui-react';
 import controllingAccountsReduxModule from 'redux/modules/controllingAccounts';
 import withMainLayout from 'components/WithMainLayout';
 import PageHeader from 'components/PageHeader';
+import CenteredTree from './CenteredTree';
 
 class ControllingAccountsVisual extends Component {
   static propTypes = {
@@ -21,13 +21,14 @@ class ControllingAccountsVisual extends Component {
 
   render() {
     const { data } = this.props;
-    console.log(data);
     return (
       <Fragment>
         <PageHeader headerText="Controlling Accounts Visual" />
-        <Segment>
-          Here
-        </Segment>
+        {data && data.length > 0 && (
+          <CenteredTree
+            data={data}
+          />
+        )}
       </Fragment>
     );
   }
@@ -35,7 +36,7 @@ class ControllingAccountsVisual extends Component {
 
 export default withMainLayout(connect(
   state => ({
-    data: controllingAccountsReduxModule.selectors.getTableData(state)
+    data: controllingAccountsReduxModule.selectors.getHierarchyData(state)
   }),
   dispatch => ({
     fetch: () => dispatch(controllingAccountsReduxModule.actions.fetch())
