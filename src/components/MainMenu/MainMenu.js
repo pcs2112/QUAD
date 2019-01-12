@@ -32,6 +32,9 @@ class MainMenu extends Component {
         <Menu.Item as={Link} to="/ctrlaccts" active={isActive(pathname, '/ctrlaccts')}>
           Controlling Accounts
         </Menu.Item>
+        <Menu.Item as={Link} to="/ctrlaccts/visual" active={isActive(pathname, '/ctrlaccts/visual')}>
+          Controlling Accounts Visual
+        </Menu.Item>
         <Menu.Item as={Link} to="/logout" onClick={this.onLogout}>
           Logout
         </Menu.Item>
