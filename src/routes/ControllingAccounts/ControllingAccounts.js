@@ -35,7 +35,7 @@ class ControllingAccounts extends Component {
     } = this.props;
     return (
       <Fragment>
-        <PageHeader headerText="Controlling Account Management" />
+        <PageHeader headerText="Controlling Accountsgit stat Management" />
         <Segment>
           <div style={treeContainerStyles}>
             <ControllingAccountsTable
