@@ -40,9 +40,9 @@ export const getSelectedItemId = createGetPropertySelector('controllingAccounts'
 export const getLookupIdx = createGetPropertySelector('controllingAccounts', 'lookupIdx');
 
 /**
- * Returns the hierarchy of expanded items and their first level children.
+ * Returns the data used in the controlling accounts table.
  */
-export const getHierarchyData = createSelector(
+export const getTableData = createSelector(
   [getData],
   (data) => {
     if (data.length < 1) {

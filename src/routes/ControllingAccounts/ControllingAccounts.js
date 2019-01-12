@@ -66,7 +66,7 @@ class ControllingAccounts extends Component {
 
 export default withMainLayout(connect(
   state => ({
-    data: controllingAccountsReduxModule.selectors.getHierarchyData(state),
+    data: controllingAccountsReduxModule.selectors.getTableData(state),
     addAccountEnabled: controllingAccountsReduxModule.selectors.getSelectedItemId(state) !== false
   }),
   dispatch => ({
