@@ -67,9 +67,10 @@ export const getHierarchyData = createSelector(
     const newData = data.map(item => ({
       id: item.id,
       p_ctrl_acct_id: item.p_ctrl_acct_id,
-      name: item.code,
+      name: item.name,
       attributes: {
-        balance: item.balance
+        Code: item.Code,
+        Balance: item.balance
       }
     }));
 
