@@ -69,7 +69,7 @@ export const getHierarchyData = createSelector(
       p_ctrl_acct_id: item.p_ctrl_acct_id,
       name: item.name,
       attributes: {
-        Code: item.Code,
+        Code: item.code,
         Balance: item.balance
       }
     }));
